@@ -100,8 +100,12 @@ proposal-clean:
 #   Build Targets
 ###
 #######
+
 $(proposal-target): $(proposal-latex)
 	latexmk    -jobname=$(basename $(@F)) -output-directory=$(@D) -pdf $<
 	latexmk -c -jobname=$(basename $(@F)) -output-directory=$(@D)
 	-rm -f $(subst $(SPACE),$(row-delimiter),$(latexmk_leftover_list))
+
+$(dir $(proposal-target)):
+	mkdir -p $@
 

@@ -1,0 +1,96 @@
+Cabal-Version: 3.8
+Name:          curate-json
+Version:       1.0.0
+Stability:     Stable
+Build-Type:    Simple
+               
+Author:        Alex Washburn <github@recursion.ninja>
+Copyright:     (c) 2022 Alex Washburn
+License:       CC-BY-SA-4.0
+License-File:  doc/LICENSE
+
+Maintainer:    Alex Washburn <github@recursion.ninja>
+Homepage:      https://recursion.ninja
+Bug-Reports:   https://github.com/recursion-ninja/CSc-74020
+
+Synopsis:      Course Project for CSc-74020 - Machine Learning
+Description:   Classifiers for prediction of D&D 5e Monster's Elo Rank.
+               A proposed substitute for the Challenge rating (CR) system.
+Category:
+  JSON
+  Machine Learning
+
+Tested-With:
+  GHC == 9.4.3
+
+Extra-Doc-Files:
+  doc/README.md
+
+Executable curate-json
+
+  main-is:
+    Main.hs
+
+  build-depends:
+    aeson,
+    base < 5.0,
+    bytestring,
+    cassava,
+    containers,
+    Glob,
+    optparse-applicative,
+    scientific,
+    tagsoup,
+    text,
+    vector,
+
+  default-language: 
+    GHC2021
+
+  ghc-options:
+    -- Usability flags
+    -fdiagnostics-color=always
+    -fhide-source-paths
+    -threaded
+    
+    -- Optimization flags
+    -O2
+    -fexcess-precision
+    -fexpose-all-unfoldings
+    -flate-specialise
+    -fmax-simplifier-iterations=16
+    -foptimal-applicative-do
+    -fspec-constr-count=8
+    -fspec-constr-keen
+    -fspecialize-aggressively
+    -fstatic-argument-transformation
+        
+    -- Sanity check warnings
+    --   1. Include all warnings by default
+    -Weverything
+    --   2. Exclude the undesirable warnings
+    -Wno-all-missed-specialisations
+    -Wno-implicit-prelude
+    -Wno-missing-import-lists
+    -Wno-missing-safe-haskell-mode
+    -Wno-monomorphism-restriction
+    -Wno-type-defaults
+    -Wno-unsafe
+    
+  if impl(ghc >=9.2)
+    ghc-options:
+      -Wno-missing-kind-signatures
+
+  if impl(ghc >=9.4)
+    ghc-options:
+      -Wredundant-strictness-flags
+      
+  hs-source-dirs:
+    app
+
+  other-modules:
+    Parameters
+    Monster.Elo
+    Monster.Label
+    Monster.StatBlock
+
