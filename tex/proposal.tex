@@ -1,0 +1,225 @@
+\documentclass{article}
+\usepackage[final]{nips_2017}
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{csquotes}
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{xspace}
+
+\bibliographystyle{abbrvnat}
+
+\newcommand{\CR}{\ensuremath{\mathbf{CR}}\xspace}
+\newcommand{\DnD}{D\&D 5e\xspace}
+\newcommand{\TierLeast}{\ensuremath{\textsc{Least}}\xspace}
+\newcommand{\TierLess}{\ensuremath{\textsc{Less}}\xspace}
+\newcommand{\TierFair}{\ensuremath{\textsc{Fair}}\xspace}
+\newcommand{\TierMore}{\ensuremath{\textsc{More}}\xspace}
+\newcommand{\TierMost}{\ensuremath{\textsc{Most}}\xspace}
+
+\title{Comparative Combat Categories in\\Dungeons and Dragons 5th Edition\\[5mm]\normalsize CSc 74020 Project Proposal --- \today}
+
+\author{
+  Alex Washburn\thanks{\url{https://recursion.ninja}} \\
+  Department of Computer Science\\
+  CUNY Graduate Center\\
+  \texttt{awashburn@gc.cuny.edu} \\
+  \And
+  Gibeom Park\\
+  Department of Computer Science\\
+  CUNY Graduate Center\\
+  \texttt{gpark1@gc.cuny.edu} \\
+  %% Coauthor \\
+  %% examples of more authors
+  %% Affiliation \\
+  %% Address \\
+  %% \texttt{email} \\
+  %% \AND
+  %% Coauthor \\
+  %% Affiliation \\
+  %% Address \\
+  %% \texttt{email} \\
+  %% \And
+  %% Coauthor \\
+  %% Affiliation \\
+  %% Address \\
+  %% \texttt{email} \\
+  %% \And
+  %% Coauthor \\
+  %% Affiliation \\
+  %% Address \\
+  %% \texttt{email} \\
+}
+
+\begin{document}
+% \nipsfinalcopy is no longer used
+
+%\begin{center}
+%\includegraphics[width=3cm, height=0.7cm]{CS230}
+%\end{center}
+
+\maketitle
+
+\begin{abstract}
+The project explores the applicability of machine learning classifiers as a proposed substitute for the deficient monster Challenge Rating defined in Dungeons and Dragons 5th Edition.
+Multiple supervised learning models will be trained on a dataset of monster features listed Dungeons and Dragons.
+Monster Elo scores will be used as labels.
+The project's resulting classifiers will predict a monster's lethality, ordering them into five tiers.
+\end{abstract}
+
+
+\section{Introduction}
+
+
+\subsection{Challenge Rating}
+
+We propose that we explore an under-developed aspect of Dungeons and Dragons 5th Edition (\DnD), the monster "Challenge Rating" system.
+The Challenge Rating (\CR) is a measure of an individual monster’s lethality to a party of four characters.
+The challenge rating system is described in the \DnD \emph{Monster Manual} \cite{DnD5eMonsterManual2014} in the following excerpt:
+
+\begin{displayquote}
+A monster's \textbf{challenge rating} tells you how great a threat the monster is.
+An appropriately equipped and well-rested party of four adventurers should be able to
+defeat a monster that has a challenge rating equal to its level without suffering any deaths.
+For example, a party of four 3rd-level characters should find a monster with a challenge rating of 3 to be a worthy challenge, but not a deadly one.
+\end{displayquote}
+
+In a supplementary \DnD work, \emph{Xanathar's Guide to Everything} \cite{DnD5eXanathars2017}, the \CR system is elaborated on further:
+
+\begin{displayquote}
+The above guidelines are designed to create a fight that will challenge a party while still being winnable.
+If you want to create an easier encounter that will challenge characters but not threaten to defeat them, you can treat the party as if it were roughly one-third smaller than it is.
+For example, to make an easy encounter for a party of five characters, put them up against monsters that would be a tough fight for three characters.
+Likewise, you can treat the party as up to half again larger to build a battle that is potentially deadly, though still not likely to be an automatic defeat.
+A party of four characters facing an encounter designed for six characters would fall into this category.
+\end{displayquote}
+
+It is clear from the source material descriptions that if a baseline part of four characters is used, then when party level is same level as the monster’s CR the encounter lethality is considered ``worthy,'' where as a monster with CR \emph{two less} than the party level being considered``easy'' and CR \emph{two greater} is ``deadly.''
+Unfortunately, the official \CR values that have been published are more often than not poor estimates of monster lethality in practice.
+
+\subsection{Proposed Solution}
+
+%In this project, we propose producing an substitute ranking of monster lethality, ordering them into \emph{five tiers} $\left[\;\TierLeast,\,\TierLess,\,\TierFair,\,\TierMore,\,\TierMost\;\right]$.
+In this project, we propose producing an substitute ranking of monster lethality.
+The original \CR ranking system is ``semi-logarithmic,''and reminiscent of the Elo ranking system \cite{elo1978rating}.
+Hence it seems natural that the substituted lethality system ought to be the more flexible Elo ranking system.
+We will do this by ignoring the \CR labeling system in the core material and instead produce a machine learning classifier.
+The classifier will process a \DnD monster's features and predict the monster's Elo.
+When playing \DnD a specific party's Elo rank can be tracked based on their successful and unsuccessful encounter.
+Future encounters can be designed to a desired level of lethality by considering the part's current Elo Rank and selecting monsters with appropriately similar Elo ranks.
+The authors conjecture that in practice, the adoption of Elo rank tracking in conjunction with the application of machine learning will produce a better indicator of monster lethality than the supplied \CR score.
+
+
+\section{Related work}
+Some work has been done on applying ML to table top role playing games (TTRPGs) in the past \cite{rameshkumar2020storytelling, macinnes2019d, cavanaugh2016machine, faria2019adaptive, riedl2013interactive}.
+Much of the work revolves around the more tractable problem of selecting appropriate ambient music choices for players to experience based on the current emotional tone of the game \cite{ferreira2017mtg, risi2020increasing, padovani2017bardo, ferreira2020computer}.
+However, the most popular TTRPG, Dungeons and Dragons (\DnD) has been used as a difficult test-bed for ML experimentation \cite{martin2018dungeons}.
+This particular previous work, while quite notable, focused entirely on non-combat aspects of \DnD, eschewing a core component and past time of \DnD; resolving conflict via numerical simulation.
+In our project we will grapple with this numeric aspect of \DnD, focusing on a small subset of the \DnD combat system; quantifying the relative lethality of a monster.
+To the best of the author's knowledge, the proposed project will be the first serious attempt to apply machine learning to a numerical aspect of \DnD.
+Consequently, there is no \emph{known} previous on which to draw a comparison.
+
+\section{Dataset and Features}
+
+Given the close resemblance between the philosophies of the \CR and the Elo ranking systems, it is not surprising that others have considered applying Elo's ranking algorithm to \DnD monster.
+In fact, we have found a pre--computed Elo score for most \DnD monsters compiled online and continually updated by \href{https://www.dndcombat.com/dndcombat/Welcome.do?page=Compendium}{\texttt{dndcombat.com}}.
+These Elo ranks will serve as labels for supervised learning.
+Additionally, a large data-set of \DnD monsters has been pre-compiled online be \href{https://5etools-mirror-1.github.io/}{\texttt{5e.tools}}, providing a robust feature set of 71 measurements for each monster with no missing values!
+I propose linking the two data-set (by monster name via string matching) to create a rich \DnD monster data-set with Elo-ranking labels.
+
+\hypertarget{the-dd-monster-data}{%
+\subsection{D\&D Monster Data}\label{the-dd-monster-data}}
+
+We will take the stat-block of each monster from the
+\href{https://5etools-mirror-1.github.io/}{\texttt{5e.tools}} database
+and match the monster with the
+\href{https://en.wikipedia.org/wiki/Elo_rating_system}{Elo Ranking} from
+\href{https://www.dndcombat.com/dndcombat/Welcome.do?page=Compendium}{\texttt{dndcombat.com}}.
+Elo Ranks scores on
+\href{https://www.dndcombat.com/dndcombat/Welcome.do?page=Compendium}{\texttt{dndcombat.com}}.
+The Elo observations were (last) taken on \texttt{2022-11-15}.
+Both the data from
+\href{https://5etools-mirror-1.github.io/}{\texttt{5e.tools}} and \href{https://www.dndcombat.com/dndcombat/Welcome.do?page=Compendium}{\texttt{dndcombat.com}}
+were retrieved in \href{https://en.wikipedia.org/wiki/JSON}{JSON format}.
+The data will be parsed, curated, and linked by the authors to produce the data-set.
+After linking the data-sets, there maybe some additional pre--processing which is required such as feature extract and normalization.
+We estimated roughly $\approx1000$ observations (rows) on linked data-set, maybe more.
+
+
+\hypertarget{datset-partitioning}{%
+\subsection{Datset partitioning}\label{datset-partitioning}}
+
+Assuming roughly 1000 observations in our dataset, we will take the prepared dataset and train multiple machine learning classifiers. 
+We will use 80\% of the randomly permuted data as the training set and the remaining 20\% as the test set.
+This partition data will be stratified by the \texttt{\textquotesingle{}Elo\ Rank\textquotesingle{}} labeling column to ensure that each tier is represented.
+Furthermore, we will partition the training set again, using 80\% as a learning set and the remaining 20\% as the validation set.
+Model selection will be performed on the training set; comprised of the "learning" and validation subsets as in Table \ref{tab:shrunk-observations}.
+
+\begin{table}[!htbp]\centering
+\caption{Distribution for partitioning dataset, stratified by \texttt{\textquotesingle{}Elo\ Rank\textquotesingle{}}}
+\label{tab:shrunk-observations}
+\begin{longtable}[]{@{}lr@{}}
+	\toprule
+	Set & Ratio \\
+	\midrule
+	\endhead
+	Test & 20\% \\
+	Train & 80\% \\
+	Learn & 64\% \\
+	Validate & 16\% \\
+	\bottomrule
+\end{longtable}
+\end{table}
+
+
+\section{Methods}
+
+The following list contains the proposed machine learning models under consideration in our classifier search.
+We will perform a hyperparameter search evaluate and then train each model under consideration.
+Subsequently, the predictive capability of the models will be compared by their Precision, Recall, and F1 metrics.
+The best performing classifier(s) will have their model(s) further tuned to produce a conclusive ``\DnD Monster Elo ranking classifier.''
+
+\begin{enumerate}
+	\def\labelenumi{\arabic{enumi}.}
+	\item
+	\textbf{Decision Tree:} Decision trees make extremely fast classifiers once constructed, but can be incredibly time consuming to build.
+	We will try our luck with this model and see if an effective classifier could be built within a reasonable time frame.
+	We might get a surprising result, but not placing a lot of hope in this model.
+	\item
+	\textbf{K Nearest Neighbors:} A very simple model with a theoretical bound on it's maximum inaccuracy.
+	We will use this as our initial classifier to get our bearing and some quick benchmarking numbers.
+	\item
+	\textbf{Logistic Regression:} We recall from class that the a logistic regression
+	can be an effective and efficient model for multi-class output, which
+	our tier list is.
+	This model will be considered because we suspected that the features have some linear, but not polynomial, relationship(s).
+	The	logistic regression ought to capture and train well if linear relationships exists between the features and tier list labels.
+	\item
+	\textbf{Multinomial Naive Bayes:} Independent features are an important factor for the efficacy of Naive Bayes models.
+	Naive Bayes models are supposed to train well on small number of observations.
+	Our dataset will likely be just above the \texttt{1000} observation threshold, so we have high hopes that this model would train well.
+	This will be our second model used to get quick benchmarking numbers.
+	\item
+	\textbf{Multi-layer Perceptron:} We wanted to experiment with the
+	concept of artificial neural nets.
+	The inclusion of this model will allow us to to get some experience with an instance of the buzzword-worthy model.
+	Given the great flexibility of ANNs, we expected very good performance from this model.
+	\item
+	\textbf{Random Forest:} Given the unknown nature and limited domain knowledge that we could use to direct the machine learning process, the use of at least one ensemble learning technique seems to be a prudent choice.
+	\item
+	\textbf{Support Vector Machines:} In an ideal case, the data-set will be linearly separable in some hyperspace.
+	If this ideal case matches the reality of the data-set, an SVM will perform exceptionally well, making it's inclusion is a natural choice.
+\end{enumerate}
+
+\newpage
+\medskip
+\small
+\bibliography{references.bib}%
+
+\end{document}
