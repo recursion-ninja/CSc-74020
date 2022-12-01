@@ -46,7 +46,7 @@ def best_classifier():
     return classifier.set_params(hyperparameter_values)
 
 
-def tier_parameters(elo_bound):
+def elo_tier_bins(elo_bound):
     params = deepcopy(evaluation_parameters)
     params["dataset_params"]["standardized_label_classes"] = elo_bound
     return params

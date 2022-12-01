@@ -3,18 +3,26 @@ import pandas as pd
 import pathlib as p
 import functools as f
 
-from sklearn.preprocessing import LabelBinarizer, QuantileTransformer, RobustScaler, StandardScaler
+from sklearn.cluster import kmeans_plusplus
+from sklearn.preprocessing import (
+    LabelBinarizer,
+    QuantileTransformer,
+    RobustScaler,
+    StandardScaler,
+    KBinsDiscretizer,
+)
 
 
 default_feature_specification = {
     "tagged_trait": True,
     "standardized_label_classes": 5,
-    "decorrelate": 0.6,
+    "decorrelate": 0.75,
 }
 
-TIERS_SET = [5, 8]
+TIERS_SET = [4, 5, 6, 7, 8]
 
 
+@f.lru_cache(maxsize=1)
 def retrieve_monster_dataset(
     compress=True,
     textual=False,
@@ -38,8 +46,8 @@ def retrieve_monster_dataset(
     if tagged_trait:
         dataset = inclusionBitEncodeColumn(dataset, "Trait Tags", "")
 
-    if standardized_label_classes is not None:
-        dataset = standarize_data_set(dataset, class_count=standardized_label_classes)
+    if bin_labels_into_tiers is not None:
+        dataset = bin_labels_into_tiers(dataset, class_count=standardized_label_classes)
 
     if decorrelate is not None:
         dataset = decorrelate_columns(dataset, threshold=decorrelate)
@@ -155,12 +163,17 @@ def inclusionBitEncodeColumn(df, colName, prefix=None):
     return df
 
 
+# Unused, instead favoring 'bin_labels_into_tiers'
 def standarize_data_set(df, colName="Elo Rank", class_count=5):
 
+    input_column = df[colName].to_numpy().reshape(-1, 1)
+
     # Standard normalization:
-    scaler = QuantileTransformer(output_distribution='normal')
-#    scaler = RobustScaler(quantile_range=(25,75), unit_variance=True)
-    df[colName] = scaler.fit_transform(df[colName].to_numpy().reshape(-1, 1))
+    scaler = QuantileTransformer(n_quantiles=class_count, output_distribution="normal")
+    #    scaler = QuantileTransformer(output_distribution='normal')
+    #    scaler = RobustScaler(quantile_range=(20,70), unit_variance=True)
+    #    scaler = StandardScaler()
+    df[colName] = scaler.fit_transform(input_column)
 
     # Scaling factor
     factor = (class_count - 1) / 2
@@ -171,15 +184,41 @@ def standarize_data_set(df, colName="Elo Rank", class_count=5):
 
     # Discretize via rounding
     df[colName] = df[colName].apply(round)
-    for t in [np.uint8, np.uint16, np.uint32, np.uint64]:
-        if class_count - 1 <= np.iinfo(t).max:
-            setType(df, colName, t)
-            break
+    setType(df, colName, np.uint8)
 
-    print(df[colName].value_counts())
+    values = list(df[colName].value_counts().items())
+    values.sort()
+    extras = 0
+    for k, v in values:
+        print(k, "\t", v)
+        if k >= class_count:
+            extras += v
+    print("extra:\t", extras)
 
     # Should no longer need to do this
     df.drop(df.loc[df[colName] >= class_count].index, inplace=True)
+
+    return df
+
+
+def bin_labels_into_tiers(df, colName="Elo Rank", class_count=5):
+
+    input_column = df[colName].to_numpy().reshape(-1, 1)
+
+    # Define how to transform the label column into tier classes.
+    # Use K-means to bin the Elo rankings into tiers.
+    discretizer = KBinsDiscretizer(
+        n_bins=class_count, encode="ordinal", strategy="kmeans"
+    )
+
+    # Apply the Discretizer to label column
+    df[colName] = discretizer.fit_transform(input_column)
+
+    # Compress the reprsesentation size of label column
+    setType(df, colName, np.uint8)
+
+    # Debug printing of label bins
+    # print(df[colName].value_counts())
 
     return df
 

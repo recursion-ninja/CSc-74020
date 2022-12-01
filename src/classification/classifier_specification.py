@@ -41,9 +41,6 @@ def model_evaluation(
     # Split off the last column as the label vector.
     X, Y = seperate_data(monster_data)
 
-    print(monster_data.info())
-#    print(monster_data[monster_data.columns[-1]].value_counts())
-
     # Partition out data into training, validation and testing sets.
     (
         X_train_full,

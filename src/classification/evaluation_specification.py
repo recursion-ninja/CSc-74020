@@ -23,13 +23,13 @@ def generate_all_evaluation_tables():
     for tier_size in TIERS_SET:
         print("\n")
         param_list = [
-            DT.tier_parameters(tier_size),
-#            KNN.tier_parameters(tier_size),
-#            LRG.tier_parameters(tier_size),
-#            NB.tier_parameters(tier_size),
-#            ANN.tier_parameters(tier_size),
-#            RF.tier_parameters(tier_size),
-#            SVM.tier_parameters(tier_size),
+            DT.elo_tier_bins(tier_size),
+            KNN.elo_tier_bins(tier_size),
+            LRG.elo_tier_bins(tier_size),
+            NB.elo_tier_bins(tier_size),
+            ANN.elo_tier_bins(tier_size),
+            RF.elo_tier_bins(tier_size),
+            SVM.elo_tier_bins(tier_size),
         ]
         print("Tier size:\t{}\n\n".format(tier_size))
         generate_evaluation_table(param_list)
@@ -47,6 +47,8 @@ def generate_evaluation_table(param_list):
 
     keys_wlog = list(eval_results[0][1].keys())
     num_column = len(keys_wlog)
+
+    print(keys_wlog)
 
     max_column = len(max(keys_wlog, key=lambda keyval: len(keyval)))
     max_label = len(
@@ -74,10 +76,10 @@ def generate_evaluation_table(param_list):
     print(header_str)
     print(border_str)
     for params, result in eval_results:
-        result[label_index] = params[label_index]
         for key in keys_wlog:
             result[key] = getDecimal(result, key)
-        outputs = result.values()
+
+        outputs = [params[label_index]] + list(result.values())
         print(format_str.format(*outputs))
 
 
