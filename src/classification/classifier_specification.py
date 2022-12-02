@@ -67,6 +67,8 @@ def model_evaluation(
         best_hyperparameters = classifier_specification(
             classifier, hyperspace_params, X_train_part, Y_train_part
         )
+        print("For classifier:", classifier_label)
+        print("Found best hyperparameters:\n", best_hyperparameters)
 
     #################################
     ###   Evaluate Classifier
