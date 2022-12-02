@@ -14,6 +14,7 @@ import model_KNN as KNN
 import model_LogisticRegression as LRG
 import model_NaiveBayes as NB
 import model_NeuralNetworkMLP as MLP
+import model_NeuralNetworkRBM as RBM
 import model_RandomForest as RF
 import model_SVM as SVM
 
@@ -28,6 +29,7 @@ def generate_all_evaluation_tables():
             LRG.elo_tier_bins(tier_size),
             NB.elo_tier_bins(tier_size),
             MLP.elo_tier_bins(tier_size),
+            RBM.elo_tier_bins(tier_size),
             RF.elo_tier_bins(tier_size),
             SVM.elo_tier_bins(tier_size),
         ]
