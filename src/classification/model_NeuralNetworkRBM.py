@@ -1,12 +1,11 @@
 from classifier_specification import STATIC_SEED, model_evaluation
 from featureset_specification import default_feature_specification
+from copy import deepcopy
 from numpy import linspace
 from sklearn.linear_model import LogisticRegression
 from sklearn.neural_network import BernoulliRBM
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler
-
-from copy import deepcopy
 
 
 #########################################
@@ -18,12 +17,28 @@ inputScaler = MinMaxScaler(copy=False)
 logisticReg = LogisticRegression(solver="newton-cg", tol=1)
 
 classifier = Pipeline(
-    steps=[("inputScaler", inputScaler), ("bernouliRMB", bernouliRMB), ("logisticReg", logisticReg)]
+    steps=[
+        ("inputScaler", inputScaler),
+        ("bernouliRMB", bernouliRMB),
+        ("logisticReg", logisticReg),
+    ]
 )
 
 designation = "Bernoulli Restricted Boltzmann Machine"
 
-hyperparameter_values = None
+hyperparameter_values = {
+    "bernouliRMB__batch_size": 16,
+    "bernouliRMB__learning_rate": 1.0,
+    "bernouliRMB__n_components": 16,
+    "bernouliRMB__n_iter": 14,
+    "bernouliRMB__random_state": 4178261698,
+    "logisticReg__C": 0.05,
+    "logisticReg__max_iter": 10000,
+    "logisticReg__penalty": "l2",
+    "logisticReg__random_state": 4178261698,
+    "logisticReg__solver": "lbfgs",
+    "logisticReg__tol": 0.1,
+}
 
 search_grid_options = {
     "bernouliRMB__n_components": [2**i for i in range(3, 10)],
@@ -67,10 +82,9 @@ def elo_tier_bins(elo_bound):
 def main():
     model_evaluation(**evaluation_parameters)
 
-
     clf = best_classifier()
-    print("Layers  :", clf.n_layers_      )
-    print("Outputs :", clf.n_outputs_     )
+    print("Layers  :", clf.n_layers_)
+    print("Outputs :", clf.n_outputs_)
     print("Function:", clf.out_activation_)
 
 

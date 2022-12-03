@@ -105,7 +105,7 @@ def compress_dataset(dataset):
     # Unsigned, large-valued columns
     uWide = {"Hit Points"}
     # Signed,   large-valued columns
-    sWide = {} # {"Elo Rank"}
+    sWide = {}  # {"Elo Rank"}
     # Textual content columns
     texty = {"Damage Tags", "Spellcasting Tags", "Trait Tags", "Name", "Type"}
 

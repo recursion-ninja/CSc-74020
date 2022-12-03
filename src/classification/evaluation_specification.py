@@ -11,6 +11,7 @@ from copy import deepcopy
 # Import the models
 import model_DecisionTree as DT
 import model_KNN as KNN
+import model_GradientBoost as GB
 import model_LogisticRegression as LRG
 import model_NaiveBayes as NB
 import model_NeuralNetworkMLP as MLP
@@ -25,6 +26,7 @@ def generate_all_evaluation_tables():
         print("\n")
         param_list = [
             DT.elo_tier_bins(tier_size),
+            GB.elo_tier_bins(tier_size),
             KNN.elo_tier_bins(tier_size),
             LRG.elo_tier_bins(tier_size),
             NB.elo_tier_bins(tier_size),
@@ -49,9 +51,6 @@ def generate_evaluation_table(param_list):
 
     keys_wlog = list(eval_results[0][1].keys())
     num_column = len(keys_wlog)
-
-    print(keys_wlog)
-
     max_column = len(max(keys_wlog, key=lambda keyval: len(keyval)))
     max_label = len(
         max(param_list, key=lambda params: len(params[label_index]))[label_index]

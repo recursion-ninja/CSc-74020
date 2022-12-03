@@ -2,9 +2,18 @@ import featureset_specification as datum
 import numpy as np
 import pandas as pd
 
+# from pactools.grid_search import GridSearchCVProgressBar
 from sklearn import metrics
 from sklearn.exceptions import ConvergenceWarning
 from sklearn.model_selection import train_test_split, GridSearchCV
+
+from sklearn.metrics import (
+    accuracy_score,
+    confusion_matrix,
+    f1_score,
+    make_scorer,
+    roc_auc_score,
+)
 
 # It is nice to remove the deprecation warnings.
 # They really distract from the important output!
@@ -20,6 +29,7 @@ if not sys.warnoptions:
 
 # A random seed, but fixed seed to use in randomized function calls.
 STATIC_SEED = 0xF90B36C2
+MULTI_METRIC_SEARCH = False
 
 
 def model_evaluation(
@@ -161,29 +171,55 @@ def train_valid_test(X_in, Y_in, validation_size, test_size):
 
 # We tune the model by determining which hyperparamaters perform best.
 def classifier_specification(classifier, param_grid, X_train_part, Y_train_part):
+
+    # Conditionally, use Receive Operation Curve's Area Under the Curve
+    # ... OR ...
+    # Also consider the F1 score and confusion matrix structure before
+    # refitting with the Receive Operation Curve's Area Under the Curve
+    fitting = True
+    metrics = make_scorer(roc_auc_score)
+    if MULTI_METRIC_SEARCH:
+        fitting = "Area under ROC"
+        metrics = {
+            "Confusion Matrix": make_scorer(confusion_matrix),
+            "F1 Score": make_scorer(f1_score),
+            "Area under ROC": make_scorer(roc_auc_score),
+        }
+
+    print("Grid Searching...")
+    #    result_classifier = GridSearchCVProgressBar(
     result_classifier = GridSearchCV(
         classifier,
         param_grid,
-        scoring="accuracy",
+        scoring=metrics,
+        refit=fitting,
         cv=4,
         verbose=1,
         n_jobs=-1,
     )
+
     result_classifier.fit(X_train_part, Y_train_part)
     best_hyperparameters = result_classifier.best_params_
+
+    print("\nBest parameters set found over cross-validation:\n")
+    print(best_hyperparameters)
     print("Best accuracy score found:  ", round(result_classifier.best_score_, 4))
+
     return best_hyperparameters
 
 
 # Nicely renders the model and it's hyper parameters
 def describe_model(classifier_label, best_hyperparameters):
     max_len = max(map(len, best_hyperparameters))
+
     print("")
     print("Constructed", classifier_label, "model")
     print("")
     print("  Using hyperparameters:")
+
     for k, v in best_hyperparameters.items():
         print("   ", ("{:<" + str(max_len) + "} =").format(k), v)
+
     print("")
 
 
@@ -193,6 +229,7 @@ def describe_data_set(X, label):
     rStr = str(X.shape[0])
     cStr = str(X.shape[1])
     mLen = max(len(rStr), len(cStr))
+
     print(label)
     print("   ", rStr.rjust(mLen), "observations")
     print("   ", cStr.rjust(mLen), "features")
