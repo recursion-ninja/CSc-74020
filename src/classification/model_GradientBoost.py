@@ -19,10 +19,10 @@ hyperparameter_values = None
 search_grid_options = {
     "learning_rate": [10.0 ** ((i - 9) / 2) for i in range(1, 5)],
     "loss": ["log_loss"],
-    "max_depth": list(linspace(2, 5, num=4)),
+    "max_depth": list(linspace(2, 5, num=4).astype(int)),
     "max_features": [None],
     "max_leaf_nodes": [None],
-    "min_samples_leaf": list(linspace(2, 5, num=4)),
+    "min_samples_leaf": list(linspace(2, 5, num=4).astype(int)),
     "min_samples_split": [2],
     "n_estimators": range(200, 501, 50),
     "random_state": [STATIC_SEED],
