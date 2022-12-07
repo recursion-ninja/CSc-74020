@@ -1,0 +1,140 @@
+%\documentclass[tikz]{standalone}
+%\usepackage{tikz}
+%\usetikzlibrary{tikzmark}
+%\usetikzlibrary{arrows,arrows.meta,decorations.pathreplacing,shapes}
+
+%\newcommand{\Concat}[2]{\ensuremath{\texttt{#1}\,\mathbin\Vert\,\texttt{#2}}}
+
+%\tikzstyle{arrow} = [draw, very thick, color=black!50, -{Latex[scale=0.75]}]
+
+
+%\begin{document}
+\begin{tikzpicture}[auto]
+
+
+%%% %%%
+% TERC
+%%% %%%
+
+
+\node[draw,fill=green!20,minimum height=1cm,minimum width = 1cm,yshift=2cm,xshift=3cm,font=\ttfamily](TERCNP0){$< \texttt{1}$};
+
+\foreach \c/\i [count=\n] in 
+{blue!20/\Concat{1}{2},blue!20/\Concat{3}{4}}
+\node[draw,fill=\c,minimum height=1cm,minimum width = 2cm,yshift=2cm,xshift=\n*2cm + 2.5 cm,font=\ttfamily](TERCNP\n){\i} ;
+
+\node [tape, draw,,fill=blue!20,minimum height=0.5cm,minimum width = 1cm,yshift=2cm,tape bend top=none, tape bend height=0.4cm,rotate=90] at (7.6,0) (t) {};
+\node [tape, draw,,fill=blue!20,minimum height=0.5cm,minimum width = 1cm,yshift=2cm,tape bend top=none, tape bend height=0.4cm,rotate=270] at (9.4,0) (t) {};
+
+\node[yshift=2cm] at (8.5, 0.35) {\dots};
+\node[yshift=2cm] at (8.5,-0.35) {\dots};
+
+\node[draw,fill=blue!20,minimum height=1cm,minimum width = 2cm,yshift=2cm,xshift=10.5cm,font=\ttfamily](TERCNS1){\Concat{19}{20}};
+
+\node[draw,fill=red!20,minimum height=1cm,minimum width = 1cm,yshift=2cm,xshift=12cm,font=\ttfamily](TERCNS2){$> \texttt{20}$};
+
+%\foreach \c/\i [count=\m] in  
+%{blue!20/19,blue!20/20,red!20/$> 20$} 
+%\node[draw,fill=\c,minimum height=1cm,minimum width = 1cm,yshift=2cm,xshift=9cm+\m*1cm](NS\m){\i} ;
+
+
+%%% %%%
+% CR 
+%%% %%%
+
+
+\foreach \c/\i [count=\n] in  
+{green!20/$\frac{1}{8}$,green!20/$\frac{1}{4}$,green!20/$\frac{1}{2}$,blue!20/1,blue!20/2,blue!20/3,blue!20/4}
+\node[draw,fill=\c,minimum height=1cm,minimum width = 1cm,xshift=\n*1cm,font=\ttfamily](CRNP\n){\i} ;
+
+\node [tape, draw,,fill=blue!20,minimum height=0.5cm,minimum width = 1cm,tape bend top=none, tape bend height=0.4cm,rotate=90] at (7.6,0) (t) {};
+\node [tape, draw,,fill=blue!20,minimum height=0.5cm,minimum width = 1cm,tape bend top=none, tape bend height=0.4cm,rotate=270] at (9.4,0) (t) {};
+
+\node at (8.5, 0.35) {\dots};
+\node at (8.5,-0.35) {\dots};
+
+\foreach \c/\i [count=\m] in  
+{blue!20/19,blue!20/20,red!20/21,red!20/21} 
+\node[draw,fill=\c,minimum height=1cm,minimum width = 1cm,xshift=9cm+\m*1cm](CRNS\m){\i} ;
+
+\node [tape, draw,,fill=red!20,minimum height=0.5cm,minimum width = 1cm,tape bend top=none, tape bend height=0.4cm,rotate=90] at (13.625,0) (t) {};
+\node [tape, draw,,fill=red!20,minimum height=0.5cm,minimum width = 1cm,tape bend top=none, tape bend height=0.4cm,rotate=270] at (15.425,0) (t) {};
+
+\node at (14.525, 0.35) {\dots};
+\node at (14.525,-0.35) {\dots};
+
+\foreach \c/\i [count=\m] in  
+{red!20/29,red!20/30} 
+\node[draw,fill=\c,minimum height=1cm,minimum width = 1cm,xshift=15cm+\m*1cm](CRNT\m){\i} ;
+
+
+%%% %%%
+% TER
+%%% %%%
+
+
+\foreach \c/\i [count=\n] in  
+{green!20/$< 1$,blue!20/1,blue!20/2,blue!20/3,blue!20/4}
+\node[draw,fill=\c,minimum height=1cm,minimum width = 1cm,yshift=-2cm,xshift=(\n+2)*1cm,font=\ttfamily](TERNP\n){\i} ;
+
+\node [tape, draw,,fill=blue!20,minimum height=0.5cm,minimum width = 1cm,yshift=-2cm,tape bend top=none, tape bend height=0.4cm,rotate=90] at (7.6,0) (t) {};
+\node [tape, draw,,fill=blue!20,minimum height=0.5cm,minimum width = 1cm,yshift=-2cm,tape bend top=none, tape bend height=0.4cm,rotate=270] at (9.4,0) (t) {};
+
+\node[yshift=-2cm] at (8.5, 0.35) {\dots};
+\node[yshift=-2cm] at (8.5,-0.35) {\dots};
+
+\foreach \c/\i [count=\m] in  
+{blue!20/19,blue!20/20,red!20/$> 20$} 
+\node[draw,fill=\c,minimum height=1cm,minimum width = 1cm,yshift=-2cm,xshift=9cm+\m*1cm](TERNS\m){\i} ;
+
+
+%%%
+% Arrows: Trivial
+%%%
+
+
+\draw [arrow] (CRNP1.north) to (TERCNP0.south west);
+\draw [arrow] (CRNP2.north) to (TERCNP0.south west);
+\draw [arrow] (CRNP3.north) to (TERCNP0.south west);
+
+\draw [arrow] (CRNP1.south) to (TERNP1.north west);
+\draw [arrow] (CRNP2.south) to (TERNP1.north west);
+\draw [arrow] (CRNP3.south) to (TERNP1.north west);
+
+
+%%%
+% Arrows: Cosmic
+%%%
+
+\draw [arrow] (CRNS3.north) to (TERCNS2.south east);
+\draw [arrow] (CRNS4.north) to (TERCNS2.south east);
+\draw [arrow] (CRNT1.north) to (TERCNS2.south east);
+\draw [arrow] (CRNT2.north) to (TERCNS2.south east);
+
+\draw [arrow] (CRNS3.south) to (TERNS3.north east);
+\draw [arrow] (CRNS4.south) to (TERNS3.north east);
+\draw [arrow] (CRNT1.south) to (TERNS3.north east);
+\draw [arrow] (CRNT2.south) to (TERNS3.north east);
+
+
+%%%
+% Arrows: Equivelent Range
+%%%
+
+\draw [arrow] (CRNP4.north) to (TERCNP1.south);
+\draw [arrow] (CRNP5.north) to (TERCNP1.south);
+\draw [arrow] (CRNP6.north) to (TERCNP2.south);
+\draw [arrow] (CRNP7.north) to (TERCNP2.south);
+\draw [arrow] (CRNS1.north) to (TERCNS1.south);
+\draw [arrow] (CRNS2.north) to (TERCNS1.south);
+
+\draw [arrow] (CRNP4.south) to (TERNP2.north);
+\draw [arrow] (CRNP5.south) to (TERNP3.north);
+\draw [arrow] (CRNP6.south) to (TERNP4.north);
+\draw [arrow] (CRNP7.south) to (TERNP5.north);
+\draw [arrow] (CRNS1.south) to (TERNS1.north);
+\draw [arrow] (CRNS2.south) to (TERNS2.north);
+
+
+\end{tikzpicture}
+%\end{document}

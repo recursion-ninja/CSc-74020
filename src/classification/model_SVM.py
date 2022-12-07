@@ -59,7 +59,7 @@ def best_classifier():
 
 def elo_tier_bins(elo_bound):
     params = deepcopy(evaluation_parameters)
-    params["dataset_params"]["standardized_label_classes"] = elo_bound
+    params["dataset_params"]["n_classes"] = elo_bound
     return params
 
 

@@ -3,7 +3,10 @@ import pandas as pd
 import pathlib as p
 import functools as f
 
+from copy import deepcopy
 from sklearn.cluster import kmeans_plusplus
+from sklearn.preprocessing import KBinsDiscretizer
+
 from sklearn.preprocessing import (
     LabelBinarizer,
     QuantileTransformer,
@@ -13,52 +16,74 @@ from sklearn.preprocessing import (
 )
 
 
+# Officially published Challenge Rating (CR) scores:
+# | Label      | Rank | Categories |
+# | Offical CR |  31  | (1/8), (1/4), (1/2), 1, 2, .. 20, 21, 22, 23, 24, 25, 26, 28, 30
+#
+# | Label      | Rank | Categories                                     | CR Equivelant
+# | Coarse     |   4  | Trivial, Heroic, Paragon, Epic                 | (< 1),      1-10,            11-20, (20 <)
+# | HeroTier   |   7  | Trivial, Local, Regional, Realm, World, Cosmic | (< 1), 1-6, 5-10,     11-16, 17-20, (20 <)
+# | Compressed |  12  | Trivial, 1, 2, ...,  9, 10, Cosmic             | (< 1), 1-2, 3-4, ..., 17-18, 19-20, (20 <)
+# | Equivalent |  22  | Trivial, 1, 2, ..., 19, 20, Cosmic             | (< 1), 1, 2,  3, ..., 18,  19,  20, (20 <)
+#
+# TIERS_SET = [4, 7, 11, 22]
+TIERS_SET = [12, 22]
+
+
+COLUMN_CLASS = "Tier"
+COLUMN_SCORE = "Elo Rank"
+COLUMN_TITLE = "Name"
+COSMIC_BOUND = 4700
+
+
 default_feature_specification = {
-    "tagged_trait": True,
-    "standardized_label_classes": 5,
     "decorrelate": 0.75,
+    "n_classes": TIERS_SET[0],
+    "textual": False,
 }
 
-TIERS_SET = [4, 5, 6, 7, 8]
+
+def dataset_path():
+    absPath = p.Path(__file__).parent.parent.resolve()
+    return absPath.parent.joinpath("data", "dnd-5e-monsters.csv")
 
 
 @f.lru_cache(maxsize=1)
-def retrieve_monster_dataset(
-    compress=True,
-    textual=False,
-    tagged_damage=False,
-    tagged_spell=False,
-    tagged_trait=False,
-    standardized_label_classes=None,
-    decorrelate=None,
-):
+def dataset_read():
+    df = pd.read_csv(dataset_path(), sep=",")
+    df = df.sort_values(by="Trait Tags", ascending=False, key=lambda x: x.str.len())
+    df = df.drop_duplicates(subset=COLUMN_TITLE, keep="first")
+    df = df.sort_values(by=COLUMN_SCORE, ascending=False).reset_index(drop=True)
+    df = feature_extraction(df)
+    return df
+
+
+@f.lru_cache(maxsize=1)
+def retrieve_monster_dataset(decorrelate=None, n_classes=TIERS_SET[0], textual=False):
     absPath = p.Path(__file__).parent.parent.resolve()
-    dataset = pd.read_csv(
-        absPath.parent.joinpath("data", "dnd-5e-monsters.csv"), sep=","
-    )
+    dataset = dataset_read()
+    dataset = bin_labels_into_tiers(dataset, n_tiers=n_classes)
+    dataset = feature_expunging(dataset, decorrelate, textual)
+    return dataset
 
-    if tagged_damage:
-        dataset = inclusionBitEncodeColumn(dataset, "Damage Tags", "Damage")
 
-    if tagged_spell:
-        dataset = inclusionBitEncodeColumn(dataset, "Spellcasting Tags", "Spellcasting")
+def feature_extraction(df):
+    df = inclusionBitEncodeColumn(df, "Damage Tags", "Damage")
+    df = inclusionBitEncodeColumn(df, "Spellcasting Tags", "Spellcasting")
+    df = inclusionBitEncodeColumn(df, "Trait Tags", "")
+    df = compress_dataset(df)
+    return df
 
-    if tagged_trait:
-        dataset = inclusionBitEncodeColumn(dataset, "Trait Tags", "")
 
-    if bin_labels_into_tiers is not None:
-        dataset = bin_labels_into_tiers(dataset, class_count=standardized_label_classes)
+def feature_expunging(df, decorrelate=None, textual=False):
 
     if decorrelate is not None:
-        dataset = decorrelate_columns(dataset, threshold=decorrelate)
+        df = decorrelate_columns(df, threshold=decorrelate)
 
     if not textual:
-        dataset = dropTextualColumns(dataset)
+        df = dropTextualColumns(df)
 
-    if compress:
-        dataset = compress_dataset(dataset)
-
-    return dataset
+    return df
 
 
 def decorrelate_columns(df, threshold=0.6):
@@ -101,33 +126,43 @@ def decorrelate_columns(df, threshold=0.6):
 
 
 # Make dataset up less than 19% of the original space!
-def compress_dataset(dataset):
+def compress_dataset(df):
+
     # Unsigned, large-valued columns
     uWide = {"Hit Points"}
     # Signed,   large-valued columns
-    sWide = {}  # {"Elo Rank"}
+    sWide = {COLUMN_SCORE}
     # Textual content columns
-    texty = {"Damage Tags", "Spellcasting Tags", "Trait Tags", "Name", "Type"}
+    texty = {
+        "Damage Tags",
+        "Name",
+        "Spellcasting Tags",
+        "Trait Tags",
+        "Type",
+    }
 
-    for col in list(dataset.columns):
+    for col in list(df.columns):
+
         # If the column contains textual data, skip it!
         if col in texty:
             continue
 
         # If the column can contain potentially large values,
-        # and the values are non-negative, truncate the bits!
-        if col in uWide:
-            setType(dataset, col, np.uint16)
-        # If the column can contain potentially large values,
         # and the values can be negative, truncate the bits!
         elif col in sWide:
-            setType(dataset, col, np.int16)
+            setType(df, col, np.int16)
+
+        # If the column can contain potentially large values,
+        # and the values are non-negative, truncate the bits!
+        elif col in uWide:
+            setType(df, col, np.uint16)
+
         # If the column is not textual and cannot contain large values,
         # then it is a tiny column, turncate as many bits as possible@
         else:
-            setType(dataset, col, np.uint8)
+            setType(df, col, np.uint8)
 
-    return dataset
+    return df
 
 
 def oneHotBitEncodeColumn(df, colName, prefix=None):
@@ -159,12 +194,12 @@ def inclusionBitEncodeColumn(df, colName, prefix=None):
         if prefix != "":
             pref += "_"
         df.insert(colSpot, pref + val, col.astype(np.uint8))
-    df.drop(colName, 1, inplace=True)
+    df.drop(colName, axis=1, inplace=True)
     return df
 
 
 # Unused, instead favoring 'bin_labels_into_tiers'
-def standarize_data_set(df, colName="Elo Rank", class_count=5):
+def standarize_data_set(df, colName=COLUMN_SCORE, class_count=5):
 
     input_column = df[colName].to_numpy().reshape(-1, 1)
 
@@ -201,26 +236,53 @@ def standarize_data_set(df, colName="Elo Rank", class_count=5):
     return df
 
 
-def bin_labels_into_tiers(df, colName="Elo Rank", class_count=5):
+def bin_labels_into_tiers(df, n_tiers=5):
 
-    input_column = df[colName].to_numpy().reshape(-1, 1)
+    # Process the "input scores," i.e.
+    # the column containing the creature Elo rankings.
+    #
+    # Partition the scores by the "cosmic bound" threshold.
+    screen = df[COLUMN_SCORE] < COSMIC_BOUND
+    gather = lambda v: df[screen == v].copy()
+    cosmic = gather(False)
+    inputs = gather(True)
+
+    # Extract the "input scores" column as NumPy array from Pandas DataFrame.
+    scores = lambda v: deepcopy(v[COLUMN_SCORE].to_numpy().reshape(-1, 1))
 
     # Define how to transform the label column into tier classes.
     # Use K-means to bin the Elo rankings into tiers.
-    discretizer = KBinsDiscretizer(
-        n_bins=class_count, encode="ordinal", strategy="kmeans"
+    # Select n - 1 bins, the nth bin is the "cosmic" tier.
+    discrete_spec = {"n_bins": n_tiers - 1, "encode": "ordinal", "strategy": "kmeans"}
+    discrete_binned = (
+        KBinsDiscretizer(**discrete_spec).fit_transform(scores(inputs)).astype(np.uint8)
+    )
+    discrete_inputs = inputs
+    discrete_inputs[COLUMN_CLASS] = discrete_binned
+
+    # Debugging for permutaiton of ordinals
+    #
+    #    print("\nMean Ranks:\n", discrete_inputs.groupby(COLUMN_CLASS, as_index=False).agg({COLUMN_SCORE: "mean"}).sort_values(by=COLUMN_SCORE))
+    #    permutation_data = discrete_inputs.groupby(COLUMN_CLASS, as_index=False).agg({COLUMN_SCORE: "mean"}).sort_values(by=COLUMN_SCORE)[COLUMN_CLASS].to_numpy().astype(np.uint8)
+    #    permutation_spec = np.zeros(len(permutation_data)).astype(np.uint8)
+    #    for k, v in enumerate(permutation_data):
+    #        permutation_spec[v] = k
+    #    print("\nArrangement:\n", permutation_data)
+    #    print("\nPermutation:\n", permutation_spec)
+    #    permutation_func = lambda row: permutation_spec[ row[COLUMN_CLASS] ]
+    #    discrete_inputs[COLUMN_CLASS] = discrete_inputs.apply(permutation_func, axis=1)
+    #    print("\nMean Ranks:\n", discrete_inputs.groupby(COLUMN_CLASS, as_index=False).agg({COLUMN_SCORE: "mean"}).sort_values(by=COLUMN_SCORE))
+
+    buffered_cosmic = scores(cosmic)
+    buffered_cosmic[:] = n_tiers - 1
+    discrete_cosmic = cosmic
+    discrete_cosmic[COLUMN_CLASS] = buffered_cosmic.astype(np.uint8)
+
+    discrete_labels = pd.concat(
+        [discrete_inputs, discrete_cosmic], axis=0, ignore_index=True, sort=False
     )
 
-    # Apply the Discretizer to label column
-    df[colName] = discretizer.fit_transform(input_column)
-
-    # Compress the reprsesentation size of label column
-    setType(df, colName, np.uint8)
-
-    # Debug printing of label bins
-    # print(df[colName].value_counts())
-
-    return df
+    return discrete_labels
 
 
 def dropTextualColumns(df):
