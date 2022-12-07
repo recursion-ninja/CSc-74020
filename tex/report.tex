@@ -31,7 +31,7 @@
 	\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{-\maxdimen}
 
-\newcommand{\Num}[1]{\oldstylenums{#1}}
+\newcommand{\Qty}[1]{\oldstylenums{#1}}
 \newcommand{\CR}{\ensuremath{\mathbf{CR}}\xspace}
 \newcommand{\TER}{\ensuremath{\mathbf{TER}}\xspace}
 \newcommand{\TERC}{\ensuremath{\mathbf{TERC}}\xspace}
@@ -161,8 +161,8 @@ For our replacement system, we desire an \Column{Elo Tier} column to be represen
 The creation of a companion machine learning classifier to place novel \DnD monsters into the most appropriate class will minimize the ``barrier to access'' while still conferring the precision of empirical Elo rank computations to players.
 
 In this work we construct two substitution candidates for the \CR system analyze the predictive efficacy of classifiers trained via supervised learning.
-The first candidate system is the Tiered Elo Rank (\TER), with\Num{22} classes.
-The second candidate system is the Tiered Elo Rank (Compressed) (\TERC), with \Num{12} classes.
+The first candidate system is the Tiered Elo Rank (\TER), with \Qty{22} classes.
+The second candidate system is the Tiered Elo Rank (Compressed) (\TERC), with \Qty{12} classes.
 Both candidates have a corresponding morphism to the \CR system illustrated in Figure \ref{fig:CR-Mapping}.
 In both candidates the morphism collapses the ``trivial'' and ``epic'' ranges of the \CR system into single classes.
 There is a one-to-one correspondence of the ``character level'' classes of the \CR system to a classes in the \TER candidate system.
@@ -210,11 +210,11 @@ We assemble a rich \DnD monster data-set by linking the measurements from \FiveE
 \hypertarget{datset-assembly}{%
 \subsection{Dataset Assembly}\label{datset-assembly}}
 
-The \FiveETools database contains the stat-block records for \Num{2333} \DnD monsters.
-Each stat-block is interpreted as a robust feature set of \Num{71} measurements.
-Notably, the \FiveETools database contains \emph{zero} missing values for \emph{all} \Num{2333} \DnD monsters.
+The \FiveETools database contains the stat-block records for \Qty{2,333} \DnD monsters.
+Each stat-block is interpreted as a robust feature set of \Qty{71} measurements.
+Notably, the \FiveETools database contains \emph{zero} missing values for \emph{all} \Qty{2,333} \DnD monsters.
 
-The \DnDCombat website contained Elo rankings for \Num{2936} \DnD monsters.
+The \DnDCombat website contained Elo rankings for \Qty{2,936} \DnD monsters.
 Only pairings of monster name and Elo rank were considered from \DnDCombat.
 The Elo observations were taken on \texttt{2022-10-25}.
 
@@ -226,17 +226,17 @@ In order to build the \texttt{curate-json} tool, the \href{https://www.haskell.o
 are required. 
 
 Exact string matching was used to link the feature records of \FiveETools with the recorded Elo ranking labels of \DnDCombat.
-The matching resulted in \Num{1630} linked records.
+The matching resulted in \Qty{1,630} linked records.
 The size of the matched dataset was deemed sufficient by the authors for the purposes of the study.
 Consequently, more flexible matching approaches, such as fuzzing matching, were not attempted.
 Matching information is summarized in Table \ref{tab:matching}.
 
 
 Finally, a search for duplicate records is performed
-A total of \Num{248} \DnD monsters with identical name and Elo rankings were discovered.
+A total of \Qty{248} \DnD monsters with identical name and Elo rankings were discovered.
 Inspection of the duplicate records revealed only slight differences between the observations, typically only differing in one of the binary indicator fields.
 The observation with the most information, meaning the record with the most binary indicators set, was preserved and the less informative duplicates were dropped.
-The deduplicated dataset consists of \Num{1382} observations.
+The deduplicated dataset consists of \Qty{1,382} observations.
 
 \begin{quote}
 \emph{Note that important digital objects exist within the project repository for reference:}%
@@ -281,7 +281,7 @@ The assembled dataset:
 \subsection{Input Summary}\label{input-summary}}
 
 The curated
-\href{https://github.com/recursion-ninja/CSc-74020/tree/master/data/dnd-5e-monsters.csv}{\texttt{data/dnd-5e-monsters.csv}} dataset has \Num{1382} rows and \Num{72} columns, constituting the project's initial observations and measurements, respectively.
+\href{https://github.com/recursion-ninja/CSc-74020/tree/master/data/dnd-5e-monsters.csv}{\texttt{data/dnd-5e-monsters.csv}} dataset has \Qty{1,382} rows and \Qty{72} columns, constituting the project's initial observations and measurements, respectively.
 
 There are two leading textual columns, labeled \Column{Name} and \Column{Type} indexed
 \IndexRange{0}{1}.
@@ -314,11 +314,12 @@ The \DnD monsters with Elo rankings $r \ge \mathcal{T}$ are extremely powerful, 
 Rather, inclusion of these \DnD monsters in an encounter is a matter of appropriateness as a story-concluding encounter rather than consideration in designing an interluding encounter.
 Therefore we manually classify all \DnD monsters with an Elo ranking $r \ge \mathcal{T}$ as \TierCosmic tier.
 The \TierCosmic is encoded as $11$ for \TERC and $21$ for \TER.
+We identified the threshold value $\mathcal{T} = 4700$.
 
 
 \subsubsection{Classes partitioned by clustering}
 
-Secondly, the remaining normally distributed \DnD monsters with Elo ranking $r < \mathcal{T}$ are partitioned into $n - 1$ tiers, either \Num{11} ranging from \NumericRange{0}{10} for \TERC or \Num{21} ranging from \NumericRange{0}{20} for \TER.
+Secondly, the remaining normally distributed \DnD monsters with Elo ranking $r < \mathcal{T}$ are partitioned into $n - 1$ tiers, either \Qty{11} ranging from \NumericRange{0}{10} for \TERC or \Qty{21} ranging from \NumericRange{0}{20} for \TER.
 The partitions of the normally distributed data conjoined with the manually partitioned outliers of the \TierCosmic results in the desired ordinal classes ranging from \NumericRange{0}{11} for the \TERC and \NumericRange{0}{21} for \TER.
 Partitioning of the normally distributed \DnD monsters is performed by K-means clustering into $n - 1$ bins.
 The resulting clusters are encoded as ordinal values in ascending order of the bin's mean value.
@@ -335,13 +336,13 @@ The Elo rank distribution and resulting partitions for \TERC and \TER are deline
 \begin{figure}[htb]
 	\centering
 	\resizebox{\textwidth}{!}{\includegraphics{Elo-Tier-Partition-12.png}}
-	\caption{Class partitions (\Num{12}) for the \TERC candidate system}\label{fig:Partitions-TERC}
+	\caption{Class partitions (\Qty{12}) for the \TERC candidate system}\label{fig:Partitions-TERC}
 \end{figure}
 
 \begin{figure}[htb]
 	\centering
 	\resizebox{\textwidth}{!}{\includegraphics{Elo-Tier-Partition-22.png}}
-	\caption{Class partitions (\Num{22}) for the \TER candidate system}\label{fig:Partitions-TER}
+	\caption{Class partitions (\Qty{22}) for the \TER candidate system}\label{fig:Partitions-TER}
 \end{figure}
 
 
@@ -352,12 +353,11 @@ The final feature extraction endeavor involves the columns, labeled
 labeled \Column{Damage\ Tags}, \Column{Spellcasting\ Tags} and \Column{Trait\ Tags} indexed \IndexRange{66}{70}.
 Each column contains a list of binary tags.
 The existence of the tag in the list indicates a positive value for that binary indicator where as absence from the list indicates a negative value.
-The column values represent an encoding of the ower set of possible binary indicators.
+The column values represent an encoding of the power set of possible binary indicators.
 Hence, these columns can be expanded to extract an additional features as the form of multiple binary indicator columns.
-All encoded binary indicators of these columns are extracted, totaling \Num{63} features combined.
-This feature extraction nearly doubles the fully expanded dataset size, now totaling to \Num{136} features.
+All encoded binary indicators of these columns are extracted, totaling \Qty{63} features combined.
+This feature extraction nearly doubles the fully expanded dataset size, now totaling to \Qty{136} features.
 The fully extracted dataset is presented in Table \ref{tab:fully-extracted-dataset}.
-
 
 
 
@@ -405,7 +405,7 @@ Consequently, we dropped the features in Table \ref{tab:dropped-features}.
 \hypertarget{final-datset-decription}{
 \subsubsection{Final Dataset Description}\label{final-datset-decription}}
 
-After feature extraction \emph{and} feature selection, the resulting dataset was comprised of \texttt{96} features.
+After feature extraction \emph{and} feature selection, the resulting dataset was comprised of \Qty{96} features.
 See Table \ref{tab:final-dataset} for a reference of column names and types of the finalized dataset.
 All the supervised learning models under considered outlined in Section \ref{model-specification} were trained on this dataset.
 
@@ -416,14 +416,11 @@ All the supervised learning models under considered outlined in Section \ref{mod
 \hypertarget{datset-partitioning}{%
 \subsection{Datset partitioning}\label{datset-partitioning}}
 
-We take the prepared dataset and train multiple machine learning
-classifiers. We use 80\% of the randomly permuted data as the training
-set and the remaining 20\% as the test set. This partition data was
-stratified by the \texttt{\textquotesingle{}Elo\ Rank\textquotesingle{}}
-column to ensure that each tier is represented. Furthermore, we
-partition the training set again, using 80\% as a learning set and the
-remaining 20\% as the validation set. Model selection was performed on
-the training set; comprised of the "learning" and validation subsets.
+We take the prepared dataset and train multiple machine learning classifiers.
+We use 80\% of the randomly permuted data as the training set and the remaining 20\% as the test set.
+This partition data was stratified by the \Column{Tier} column to ensure that each tier is represented.
+Furthermore, we partition the training set again, using 80\% as a learning set and the remaining 20\% as the validation set.
+Model selection was performed on the training set; comprised of the "learning" and validation subsets.
 
 \begin{table}[!htbp] \centering 
 \caption{Distribution for partitioning dataset,	stratified by \Column{Tier}.}
@@ -440,6 +437,7 @@ Validate & 16\% \\
 \bottomrule
 \end{longtable}
 \end{table}
+
 
 \hypertarget{model-specification}{%
 \subsection{Model Specification}\label{model-specification}}
@@ -480,6 +478,7 @@ The best performing classifier(s) will have their model(s) further tuned to prod
 	If this ideal case matches the reality of the data-set, an SVM will perform exceptionally well, making it's inclusion is a natural choice.
 \end{enumerate}
 
+
 \hypertarget{model-selection}{%
 \subsection{Model Selection}\label{model-selection}}
 
@@ -510,9 +509,9 @@ The hyperparameters resulting from our model selection process can be found by r
 	\toprule
 	\textbf{Source} & \textbf{Summary} & \textbf{Matched} & \textbf{Unmatched} & \textbf{Total} \\
 	\midrule
-	\FiveETools & Feature Set & 1630 &  703 & 2333 \\
+	\FiveETools & Feature Set & \Qty{1,630} &  \Qty{703} & \Qty{2,333} \\
 	\hline \\[-3mm]
-	\DnDCombat & Elo Rankings & 1630 & 1306 & 2936 \\
+	\DnDCombat & Elo Rankings & \Qty{1,630} & \Qty{1,306} & \Qty{2,936} \\
 	\hline
 \end{longtable}
 \end{table}
