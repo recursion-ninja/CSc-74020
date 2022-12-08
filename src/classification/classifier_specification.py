@@ -12,6 +12,7 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import (
     accuracy_score,
     balanced_accuracy_score,
+    classification_report,
     confusion_matrix,
     f1_score,
     jaccard_score,
@@ -46,6 +47,7 @@ decimal = lambda v: round(v, 4)
 def model_evaluation(
     classifier_label,
     classifier,
+    class_labels,
     dataset_params,
     final_evaluation=False,
     hyperspace_params=None,
@@ -142,7 +144,7 @@ def model_evaluation(
         describe_data_set(
             X_test, "  Using " + label_prediction + " dataset containing:"
         )
-    return evaluate_predictions(Y_eval, Y_score, dataset_params["n_classes"], verbose)
+    return evaluate_predictions(Y_eval, Y_score, class_labels, verbose)
 
 
 # Given a Pandas data frame, partition the data frame into two segements.
@@ -150,8 +152,7 @@ def model_evaluation(
 # The second segment contains only the last column.
 # The partitioned data frame represents the feature observation matrix
 def seperate_data(data_frame):
-    # Shuffle the input data to ensure
-    # there are no ordering biases
+    # Shuffle the input data to ensure there are no ordering biases
     data_frame = data_frame.sample(frac=1, random_state=STATIC_SEED)
     labelColumn = data_frame.columns[-1]
     X = data_frame.loc[:, data_frame.columns != labelColumn]
@@ -173,7 +174,6 @@ def seperate_data(data_frame):
 #
 # Intended to be convieient for model selection and tuning.
 def train_valid_test(X_in, Y_in, validation_size, test_size):
-    label_classes = list(sorted(Y_in.unique()))
     splitter = lambda x, y, n: train_test_split(
         x, y, test_size=n, random_state=STATIC_SEED, stratify=y
     )
@@ -370,21 +370,15 @@ def describe_data_set(X, label):
     print("")
 
 
-def evaluate_predictions(Y_eval, Y_score, num_classes, verbose=True):
-    averaging = "macro"
-    result = {
-        "Accuracy": round(balanced_accuracy_score(Y_eval, Y_score), 4),
-        "Precision": round(
-            precision_score(Y_eval, Y_score, average=METRIC_AVERAGING), 4
-        ),
-        "Recall": round(recall_score(Y_eval, Y_score, average=METRIC_AVERAGING), 4),
-        "F1": round(f1_score(Y_eval, Y_score, average=METRIC_AVERAGING), 4),
-        #                , 'LRAP'           : round(label_ranking_average_precision_score(Y_eval, Y_score  ), 4)
-        #                , 'Converge Error' : round(coverage_error(     Y_eval, Y_score                    ), 4)
-        #                , 'Ranking Loss'   : round(label_ranking_loss( Y_eval, Y_score                    ), 4)
-        #'ROC AUC'   : round(roc_auc_score(  Y_eval, Y_score, average=averaging, multi_class='ovo', labels=num_classes), 4),
+def evaluate_predictions(Y_eval, Y_score, class_labels, verbose=True):
+    report_details = {
+        "digits": 4,
+        "target_names": class_labels,
+        "output_dict": True,
+        "y_pred": Y_score,
+        "y_true": Y_eval,
     }
-
+    result = classification_report(**report_details)
     if verbose:
         inspect_confusion_matrix(Y_eval, Y_score)
         print("")

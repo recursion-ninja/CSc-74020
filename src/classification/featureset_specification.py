@@ -15,6 +15,11 @@ from sklearn.preprocessing import (
     KBinsDiscretizer,
 )
 
+TIER_LABELING = lambda x: ["Trivial"] + list(x) + ["Cosmic"]
+TIER_COMPRESS = TIER_LABELING(
+    [str(i) + "║" + str(j) for i, j in zip(range(1, 20, 2), range(2, 21, 2))]
+)
+TIER_STANDARD = TIER_LABELING([str(i) for i in range(1, 21)])
 
 # Officially published Challenge Rating (CR) scores:
 # | Label      | Rank | Categories |
@@ -27,8 +32,7 @@ from sklearn.preprocessing import (
 # | Equivalent |  22  | Trivial, 1, 2, ..., 19, 20, Cosmic             | (< 1), 1, 2,  3, ..., 18,  19,  20, (20 <)
 #
 # TIERS_SET = [4, 7, 11, 22]
-TIERS_SET = [12, 22]
-
+TIERS_SET = [TIER_COMPRESS, TIER_STANDARD]
 
 COLUMN_CLASS = "Tier"
 COLUMN_SCORE = "Elo Rank"
@@ -82,6 +86,8 @@ def feature_expunging(df, decorrelate=None, textual=False):
 
     if not textual:
         df = dropTextualColumns(df)
+
+    df.drop(COLUMN_SCORE, 1, inplace=True)
 
     return df
 

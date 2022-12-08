@@ -14,19 +14,32 @@ classifier = GradientBoostingClassifier()
 
 designation = "Gradient Boosting"
 
-hyperparameter_values = None
+hyperparameter_values = {
+    #    "learning_rate": 0.0001,
+    "loss": "log_loss",
+    #    "max_depth": 2,
+    "max_features": None,
+    "max_leaf_nodes": None,
+    #    "min_samples_leaf": 2,
+    #    "min_samples_split": 2,
+    #    "n_estimators": 250,
+    "random_state": STATIC_SEED,
+    #    "subsample": 0.4,
+    "warm_start": True,
+}
+
 
 search_grid_options = {
     "learning_rate": [10.0 ** ((i - 9) / 2) for i in range(1, 5)],
     "loss": ["log_loss"],
-    "max_depth": list(linspace(2, 5, num=4).astype(int)),
+    "max_depth": [2, 4],  # list(linspace(2, 5, num=4).astype(int)),
     "max_features": [None],
     "max_leaf_nodes": [None],
-    "min_samples_leaf": list(linspace(2, 5, num=4).astype(int)),
+    "min_samples_leaf": [2, 4],  # list(linspace(2, 5, num=4).astype(int)),
     "min_samples_split": [2],
     "n_estimators": range(200, 501, 50),
     "random_state": [STATIC_SEED],
-    "subsample": list(linspace(0.4, 0.8, num=9)),
+    "subsample": list(linspace(0.4, 0.8, num=5)),
     "warm_start": [True],
 }
 
