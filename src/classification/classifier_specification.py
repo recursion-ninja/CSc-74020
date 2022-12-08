@@ -47,7 +47,6 @@ decimal = lambda v: round(v, 4)
 def model_evaluation(
     classifier_label,
     classifier,
-    class_labels,
     dataset_params,
     final_evaluation=False,
     hyperspace_params=None,
@@ -55,11 +54,13 @@ def model_evaluation(
     verbose=True,
 ):
 
+    class_labels = dataset_params['class_names']
+
     #################################
     ###   Data preparation
     #################################
 
-    monster_data = datum.retrieve_monster_dataset(**dataset_params)
+    monster_data = datum.retrieve_monster_dataset(**dataset_params)#(dataset_params['class_names'], dataset_params['decorrelate'], dataset_params['textual']) 
 
     # Split off the last column as the label vector.
     X, Y = seperate_data(monster_data)
@@ -268,6 +269,7 @@ def classifier_specification(
     print("    Score: ", decimal(best_score))
     print("    Value: ")
     print(best_hyperparameters)
+    print()
 
     #    scoring = metrics
     #    results = hyperparameterSearch.cv_results_

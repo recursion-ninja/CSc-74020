@@ -1,5 +1,5 @@
 from classifier_specification import STATIC_SEED, model_evaluation
-from featureset_specification import default_feature_specification
+from featureset_specification import default_feature_specification, which_set
 from numpy import linspace
 from sklearn.linear_model import LogisticRegression
 from copy import deepcopy
@@ -14,6 +14,18 @@ classifier = LogisticRegression()
 
 designation = "Logistic Regression"
 
+hyperparameter_values = [
+    {
+    "penalty": "l2",
+    "solver": "lbfgs",
+    "C": 0.05,
+    "tol": 0.1,
+    "max_iter": 10000,
+    "random_state": STATIC_SEED,
+    },
+    None
+]
+
 search_grid_options = {
     "penalty": ["elasticnet", "l1", "l2"],
     "solver": ["newton-cg", "lbfgs", "liblinear", "sag", "saga"],
@@ -22,14 +34,6 @@ search_grid_options = {
     "max_iter": [10 ** (1 + i) for i in range(1, 4)],
     "random_state": [STATIC_SEED],
     "l1_ratio": linspace(0, 1, num=13),
-}
-hyperparameter_values = {
-    "penalty": "l2",
-    "solver": "lbfgs",
-    "C": 0.05,
-    "tol": 0.1,
-    "max_iter": 10000,
-    "random_state": STATIC_SEED,
 }
 
 
@@ -51,9 +55,10 @@ def best_classifier():
     return classifier.set_params(hyperparameter_values)
 
 
-def elo_tier_bins(elo_bound):
+def with_tiers(tiers):
     params = deepcopy(evaluation_parameters)
-    params["dataset_params"]["n_classes"] = elo_bound
+    params["dataset_params"]["class_names"] = tiers
+    params["best_hyperparameters"] = hyperparameter_values[which_set(tiers)]
     return params
 
 

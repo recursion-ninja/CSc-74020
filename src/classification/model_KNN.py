@@ -1,5 +1,5 @@
 from classifier_specification import STATIC_SEED, model_evaluation
-from featureset_specification import default_feature_specification
+from featureset_specification import default_feature_specification, which_set
 from sklearn.neighbors import KNeighborsClassifier
 from copy import deepcopy
 
@@ -12,13 +12,18 @@ classifier = KNeighborsClassifier()
 
 designation = "K Nearest Neighbors"
 
-hyperparameter_values = {
+hyperparameter_values = [
+    {
     "algorithm": "ball_tree",
     "weights": "distance",
     "n_neighbors": 30,
     "leaf_size": 5,
     "p": 1,
-}
+    },
+    None
+]
+
+
 search_grid_options = {
     "n_neighbors": list(range(1, 23, 2)) + list(range(23, 32)) + list(range(33, 38, 2)),
     "p": range(1, 5),
@@ -46,9 +51,10 @@ def best_classifier():
     return classifier.set_params(hyperparameter_values)
 
 
-def elo_tier_bins(elo_bound):
+def with_tiers(tiers):
     params = deepcopy(evaluation_parameters)
-    params["dataset_params"]["n_classes"] = elo_bound
+    params["dataset_params"]["class_names"] = tiers
+    params["best_hyperparameters"] = hyperparameter_values[which_set(tiers)] 
     return params
 
 

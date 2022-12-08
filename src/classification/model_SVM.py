@@ -1,5 +1,5 @@
 from classifier_specification import STATIC_SEED, model_evaluation
-from featureset_specification import default_feature_specification
+from featureset_specification import default_feature_specification, which_set
 from numpy import linspace
 from sklearn.svm import SVC
 from copy import deepcopy
@@ -14,7 +14,8 @@ classifier = SVC()
 
 designation = "Support Vector Classification"
 
-hyperparameter_values = {
+hyperparameter_values = [
+    {
     "C": 0.04625,
     "kernel": "linear",
     "gamma": "scale",
@@ -22,7 +23,10 @@ hyperparameter_values = {
     "probability": True,
     "decision_function_shape": "ovo",
     "random_state": STATIC_SEED,
-}
+    },
+    None
+]
+
 search_grid_options = {
     "C": (
         [10 ** (-1 * i) for i in range(0, 9)]
@@ -57,9 +61,10 @@ def best_classifier():
     return classifier.set_params(hyperparameter_values)
 
 
-def elo_tier_bins(elo_bound):
+def with_tiers(tiers):
     params = deepcopy(evaluation_parameters)
-    params["dataset_params"]["n_classes"] = elo_bound
+    params["dataset_params"]["class_names"] = tiers
+    params["best_hyperparameters"] = hyperparameter_values[which_set(tiers)]
     return params
 
 

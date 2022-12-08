@@ -31,40 +31,38 @@ LABEL_INDEX = "classifier_label"
 
 def generate_all_evaluation_tables():
 
-    for tier in TIERS_SET:
+    for tiers in TIERS_SET:
         print("\n")
-        tier_size = len(tier)
         model_params = [
-            DT.elo_tier_bins(tier_size),
-            GB.elo_tier_bins(tier_size),
-            KNN.elo_tier_bins(tier_size),
-            LRG.elo_tier_bins(tier_size),
-            NB.elo_tier_bins(tier_size),
-            MLP.elo_tier_bins(tier_size),
-            RBM.elo_tier_bins(tier_size),
-            RF.elo_tier_bins(tier_size),
-            SVM.elo_tier_bins(tier_size),
+            DT.with_tiers(tiers),
+            GB.with_tiers(tiers),
+            KNN.with_tiers(tiers),
+            LRG.with_tiers(tiers),
+            NB.with_tiers(tiers),
+            MLP.with_tiers(tiers),
+            RBM.with_tiers(tiers),
+            RF.with_tiers(tiers),
+            SVM.with_tiers(tiers),
         ]
 
-        print("Tier size:\t{}\n\n".format(tier_size))
+        print("  |Tiers|  =  {}\n\n".format(len(tiers)))
         param_result_pairs = []
         for params in model_params:
             params["verbose"] = False
             params["final_evaluation"] = True
-            params["class_labels"] = tier
             param_result_pairs.append((params, model_evaluation(**params)))
 
         generate_evaluation_table(param_result_pairs)
-        generate_evaluation_plots(param_result_pairs)
+        generate_evaluation_plots(param_result_pairs, tiers)
 
     print("\n")
 
 
-def generate_evaluation_plots(param_result_pairs):
+def generate_evaluation_plots(param_result_pairs, tiers):
 
     for params, result in param_result_pairs:
         plot_details = {
-            "class_names": params["class_labels"],
+            "class_names": tiers,
             "cmap": plt.cm.Blues,
             "report": result,
             "title": params[LABEL_INDEX],

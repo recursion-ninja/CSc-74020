@@ -18,7 +18,7 @@ def main():
 
 def construct_image(n_classes):
     df = datum.dataset_read()
-    df = datum.bin_labels_into_tiers(df, n_tiers=n_classes)
+    df = datum.bin_labels_into_with_tiers(tiers)(df, n_with_tiers(tiers)=n_classes)
 
     plt.figure(figsize=(15, 7), dpi=120)
 

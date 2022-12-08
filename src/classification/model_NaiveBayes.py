@@ -1,5 +1,5 @@
 from classifier_specification import STATIC_SEED, model_evaluation
-from featureset_specification import default_feature_specification
+from featureset_specification import default_feature_specification, which_set
 from sklearn.naive_bayes import MultinomialNB
 from copy import deepcopy
 
@@ -13,7 +13,11 @@ classifier = MultinomialNB()
 
 designation = "Multinomial Naïve Bayes"
 
-hyperparameter_values = {"alpha": 0.01, "fit_prior": False}
+hyperparameter_values = [
+    {"alpha": 0.01, "fit_prior": False},
+    None
+]
+
 search_grid_options = {
     "alpha": [10 ** (i - 4) for i in range(0, 9)],
     "fit_prior": [False, True],
@@ -38,9 +42,10 @@ def best_classifier():
     return classifier.set_params(hyperparameter_values)
 
 
-def elo_tier_bins(elo_bound):
+def with_tiers(tiers):
     params = deepcopy(evaluation_parameters)
-    params["dataset_params"]["n_classes"] = elo_bound
+    params["dataset_params"]["class_names"] = tiers
+    params["best_hyperparameters"] = hyperparameter_values[which_set(tiers)] 
     return params
 
 

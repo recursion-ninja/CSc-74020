@@ -33,6 +33,7 @@ TIER_STANDARD = TIER_LABELING([str(i) for i in range(1, 21)])
 #
 # TIERS_SET = [4, 7, 11, 22]
 TIERS_SET = [TIER_COMPRESS, TIER_STANDARD]
+which_set = lambda x: 0 if x == TIERS_SET[0] else 1
 
 COLUMN_CLASS = "Tier"
 COLUMN_SCORE = "Elo Rank"
@@ -41,8 +42,8 @@ COSMIC_BOUND = 4700
 
 
 default_feature_specification = {
+    "class_names": [],
     "decorrelate": 0.75,
-    "n_classes": TIERS_SET[0],
     "textual": False,
 }
 
@@ -52,7 +53,7 @@ def dataset_path():
     return absPath.parent.joinpath("data", "dnd-5e-monsters.csv")
 
 
-@f.lru_cache(maxsize=1)
+# @f.lru_cache(maxsize=1)
 def dataset_read():
     df = pd.read_csv(dataset_path(), sep=",")
     df = df.sort_values(by="Trait Tags", ascending=False, key=lambda x: x.str.len())
@@ -62,11 +63,11 @@ def dataset_read():
     return df
 
 
-@f.lru_cache(maxsize=1)
-def retrieve_monster_dataset(decorrelate=None, n_classes=TIERS_SET[0], textual=False):
+# @f.lru_cache(maxsize=1)
+def retrieve_monster_dataset(class_names, decorrelate=None, textual=False):
     absPath = p.Path(__file__).parent.parent.resolve()
     dataset = dataset_read()
-    dataset = bin_labels_into_tiers(dataset, n_tiers=n_classes)
+    dataset = bin_labels_into_tiers(dataset, n_tiers=len(class_names))
     dataset = feature_expunging(dataset, decorrelate, textual)
     return dataset
 
@@ -242,7 +243,7 @@ def standarize_data_set(df, colName=COLUMN_SCORE, class_count=5):
     return df
 
 
-def bin_labels_into_tiers(df, n_tiers=5):
+def bin_labels_into_tiers(df, n_tiers):
 
     # Process the "input scores," i.e.
     # the column containing the creature Elo rankings.

@@ -1,5 +1,5 @@
 from classifier_specification import STATIC_SEED, model_evaluation
-from featureset_specification import default_feature_specification
+from featureset_specification import default_feature_specification, which_set
 from copy import deepcopy
 from numpy import linspace
 from sklearn.linear_model import LogisticRegression
@@ -26,7 +26,8 @@ classifier = Pipeline(
 
 designation = "Bernoulli Restricted Boltzmann Machine"
 
-hyperparameter_values = {
+hyperparameter_values = [
+    {
     "bernouliRMB__batch_size": 16,
     "bernouliRMB__learning_rate": 1.0,
     "bernouliRMB__n_components": 16,
@@ -38,7 +39,9 @@ hyperparameter_values = {
     "logisticReg__random_state": 4178261698,
     "logisticReg__solver": "lbfgs",
     "logisticReg__tol": 0.1,
-}
+    },
+    None
+]
 
 search_grid_options = {
     "bernouliRMB__n_components": [2**i for i in range(3, 10)],
@@ -73,19 +76,11 @@ def best_classifier():
     return classifier.set_params(**hyperparameter_values)
 
 
-def elo_tier_bins(elo_bound):
+def with_tiers(tiers):
     params = deepcopy(evaluation_parameters)
-    params["dataset_params"]["n_classes"] = elo_bound
+    params["dataset_params"]["class_names"] = tiers
+    params["best_hyperparameters"] = hyperparameter_values[which_set(tiers)] 
     return params
-
-
-def main():
-    model_evaluation(**evaluation_parameters)
-
-    clf = best_classifier()
-    print("Layers  :", clf.n_layers_)
-    print("Outputs :", clf.n_outputs_)
-    print("Function:", clf.out_activation_)
 
 
 if __name__ == "__main__":
