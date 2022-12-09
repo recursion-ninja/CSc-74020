@@ -17,11 +17,16 @@ classifier = AdaBoostClassifier()
 designation = "AdaBoost"
 
 hyperparameter_values = [
-    None,
-    None
+    None, # 12 tiers (TERC)
+    None  # 22 tiers (TER)
 ]
 #  Tier size 4: {'algorithm': 'SAMME', 'base_estimator': DecisionTreeClassifier(max_depth=8), 'learning_rate': 1.8085714285714287, 'n_estimators': 988, 'random_state': 4178261698}
 
+# Example to refine a search arought 10 ^ -2
+# Values to consider 10 ^ i in [-3, -2.8, ..., -1.2, -1.0]
+#
+# [10**(-2 + 0.2 * (i-5)) for i in range (0, 11) ]
+#
 search_grid_options = {
     "base_estimator": [DecisionTreeClassifier(max_depth=i) for i in range(7, 10)],
     "learning_rate": list(linspace(1.62, 2.5, num=15)),
