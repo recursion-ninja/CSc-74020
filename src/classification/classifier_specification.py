@@ -54,13 +54,15 @@ def model_evaluation(
     verbose=True,
 ):
 
-    class_labels = dataset_params['class_names']
+    class_labels = dataset_params["class_names"]
 
     #################################
     ###   Data preparation
     #################################
 
-    monster_data = datum.retrieve_monster_dataset(**dataset_params)#(dataset_params['class_names'], dataset_params['decorrelate'], dataset_params['textual']) 
+    monster_data = datum.retrieve_monster_dataset(
+        **dataset_params
+    )  # (dataset_params['class_names'], dataset_params['decorrelate'], dataset_params['textual'])
 
     # Split off the last column as the label vector.
     X, Y = seperate_data(monster_data)

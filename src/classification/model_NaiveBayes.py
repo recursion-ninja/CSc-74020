@@ -13,10 +13,7 @@ classifier = MultinomialNB()
 
 designation = "Multinomial Naïve Bayes"
 
-hyperparameter_values = [
-    {"alpha": 0.01, "fit_prior": False},
-    None
-]
+hyperparameter_values = [{"alpha": 0.01, "fit_prior": False}, None]
 
 search_grid_options = {
     "alpha": [10 ** (i - 4) for i in range(0, 9)],
@@ -45,7 +42,7 @@ def best_classifier():
 def with_tiers(tiers):
     params = deepcopy(evaluation_parameters)
     params["dataset_params"]["class_names"] = tiers
-    params["best_hyperparameters"] = hyperparameter_values[which_set(tiers)] 
+    params["best_hyperparameters"] = hyperparameter_values[which_set(tiers)]
     return params
 
 

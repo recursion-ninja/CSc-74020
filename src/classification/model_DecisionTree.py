@@ -14,12 +14,17 @@ designation = "Decision Tree"
 
 hyperparameter_values = [
     {
-    "criterion": "gini",
-    "splitter": "best",
-    "max_features": "log2",
-    "random_state": STATIC_SEED,
+        "criterion": "gini",
+        "splitter": "best",
+        "max_features": "log2",
+        "random_state": STATIC_SEED,
     },
-    None
+    {
+        "criterion": "gini",
+        "max_features": "auto",
+        "random_state": STATIC_SEED,
+        "splitter": "best",
+    },
 ]
 
 search_grid_options = {
@@ -51,7 +56,7 @@ def best_classifier():
 def with_tiers(tiers):
     params = deepcopy(evaluation_parameters)
     params["dataset_params"]["class_names"] = tiers
-    params["best_hyperparameters"] = hyperparameter_values[which_set(tiers)] 
+    params["best_hyperparameters"] = hyperparameter_values[which_set(tiers)]
     return params
 
 

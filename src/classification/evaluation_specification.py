@@ -135,7 +135,6 @@ def save_classification_plot(
         "pad_inches": 0,
         "transparent": True,
     }
-    print(image_detail)
 
     metric_matrix = []
     for i in class_names:

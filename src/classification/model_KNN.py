@@ -14,13 +14,19 @@ designation = "K Nearest Neighbors"
 
 hyperparameter_values = [
     {
-    "algorithm": "ball_tree",
-    "weights": "distance",
-    "n_neighbors": 30,
-    "leaf_size": 5,
-    "p": 1,
+        "algorithm": "ball_tree",
+        "leaf_size": 5,
+        "n_neighbors": 30,
+        "p": 1,
+        "weights": "distance",
     },
-    None
+    {
+        "algorithm": "ball_tree",
+        "leaf_size": 15,
+        "n_neighbors": 33,
+        "p": 1,
+        "weights": "distance",
+    },
 ]
 
 
@@ -54,7 +60,7 @@ def best_classifier():
 def with_tiers(tiers):
     params = deepcopy(evaluation_parameters)
     params["dataset_params"]["class_names"] = tiers
-    params["best_hyperparameters"] = hyperparameter_values[which_set(tiers)] 
+    params["best_hyperparameters"] = hyperparameter_values[which_set(tiers)]
     return params
 
 

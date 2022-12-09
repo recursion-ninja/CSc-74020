@@ -16,14 +16,14 @@ designation = "Logistic Regression"
 
 hyperparameter_values = [
     {
-    "penalty": "l2",
-    "solver": "lbfgs",
-    "C": 0.05,
-    "tol": 0.1,
-    "max_iter": 10000,
-    "random_state": STATIC_SEED,
+        "penalty": "l2",
+        "solver": "lbfgs",
+        "C": 0.05,
+        "tol": 0.1,
+        "max_iter": 10000,
+        "random_state": STATIC_SEED,
     },
-    None
+    None,
 ]
 
 search_grid_options = {

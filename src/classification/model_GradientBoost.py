@@ -16,19 +16,31 @@ designation = "Gradient Boosting"
 
 hyperparameter_values = [
     {
-        #    "learning_rate": 0.0001,
+        #"learning_rate": 0.0001,
         "loss": "log_loss",
-        #    "max_depth": 2,
+        #"max_depth": 2,
         "max_features": None,
         "max_leaf_nodes": None,
-        #    "min_samples_leaf": 2,
-        #    "min_samples_split": 2,
-        #    "n_estimators": 250,
+        #"min_samples_leaf": 2,
+        #"min_samples_split": 2,
+        #"n_estimators": 250,
         "random_state": STATIC_SEED,
-        #    "subsample": 0.4,
+        #"subsample": 0.4,
         "warm_start": True,
     },
-    None
+    {
+        "learning_rate": 0.0001,
+        "loss": "log_loss",
+        "max_depth": 2,
+        "max_features": None,
+        "max_leaf_nodes": None,
+        "min_samples_leaf": 4,
+        "min_samples_split": 2,
+        "n_estimators": 450,
+        "random_state": 4178261698,
+        "subsample": 0.4,
+        "warm_start": True,
+    },
 ]
 
 
@@ -89,7 +101,7 @@ def best_classifier():
 def with_tiers(tiers):
     params = deepcopy(evaluation_parameters)
     params["dataset_params"]["class_names"] = tiers
-    params["best_hyperparameters"] = hyperparameter_values[which_set(tiers)] 
+    params["best_hyperparameters"] = hyperparameter_values[which_set(tiers)]
     return params
 
 

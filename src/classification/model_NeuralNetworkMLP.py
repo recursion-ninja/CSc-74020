@@ -22,17 +22,17 @@ beta_candidates_vals = (
 
 hyperparameter_values = [
     {
-    "solver": "adam",
-    "activation": "logistic",
-    "learning_rate": "constant",
-    "learning_rate_init": 0.001,
-    "alpha": 0.1,
-    "beta_1": 0.8,
-    "beta_2": 0.99,
-    "early_stopping": False,
-    "random_state": STATIC_SEED,
+        "solver": "adam",
+        "activation": "logistic",
+        "learning_rate": "constant",
+        "learning_rate_init": 0.001,
+        "alpha": 0.1,
+        "beta_1": 0.8,
+        "beta_2": 0.99,
+        "early_stopping": False,
+        "random_state": STATIC_SEED,
     },
-    None
+    None,
 ]
 
 search_grid_options = {
@@ -69,7 +69,7 @@ def best_classifier():
 def with_tiers(tiers):
     params = deepcopy(evaluation_parameters)
     params["dataset_params"]["class_names"] = tiers
-    params["best_hyperparameters"] = hyperparameter_values[which_set(tiers)] 
+    params["best_hyperparameters"] = hyperparameter_values[which_set(tiers)]
     return params
 
 

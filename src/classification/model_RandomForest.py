@@ -26,17 +26,16 @@ search_grid_options = {
 
 hyperparameter_values = [
     {
-    "n_estimators": 150,
-    "criterion": "entropy",
-    "max_features": "auto",
-    "bootstrap": True,
-    "oob_score": False,
-    "class_weight": "balanced",
-    "random_state": STATIC_SEED,
+        "n_estimators": 150,
+        "criterion": "entropy",
+        "max_features": "auto",
+        "bootstrap": True,
+        "oob_score": False,
+        "class_weight": "balanced",
+        "random_state": STATIC_SEED,
     },
-    None
+    None,
 ]
-
 
 
 #########################################
@@ -60,7 +59,7 @@ def best_classifier():
 def with_tiers(tiers):
     params = deepcopy(evaluation_parameters)
     params["dataset_params"]["class_names"] = tiers
-    params["best_hyperparameters"] = hyperparameter_values[which_set(tiers)] 
+    params["best_hyperparameters"] = hyperparameter_values[which_set(tiers)]
     return params
 
 

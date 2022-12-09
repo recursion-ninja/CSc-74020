@@ -28,19 +28,19 @@ designation = "Bernoulli Restricted Boltzmann Machine"
 
 hyperparameter_values = [
     {
-    "bernouliRMB__batch_size": 16,
-    "bernouliRMB__learning_rate": 1.0,
-    "bernouliRMB__n_components": 16,
-    "bernouliRMB__n_iter": 14,
-    "bernouliRMB__random_state": 4178261698,
-    "logisticReg__C": 0.05,
-    "logisticReg__max_iter": 10000,
-    "logisticReg__penalty": "l2",
-    "logisticReg__random_state": 4178261698,
-    "logisticReg__solver": "lbfgs",
-    "logisticReg__tol": 0.1,
+        "bernouliRMB__batch_size": 16,
+        "bernouliRMB__learning_rate": 1.0,
+        "bernouliRMB__n_components": 16,
+        "bernouliRMB__n_iter": 14,
+        "bernouliRMB__random_state": 4178261698,
+        "logisticReg__C": 0.05,
+        "logisticReg__max_iter": 10000,
+        "logisticReg__penalty": "l2",
+        "logisticReg__random_state": 4178261698,
+        "logisticReg__solver": "lbfgs",
+        "logisticReg__tol": 0.1,
     },
-    None
+    None,
 ]
 
 search_grid_options = {
@@ -79,7 +79,7 @@ def best_classifier():
 def with_tiers(tiers):
     params = deepcopy(evaluation_parameters)
     params["dataset_params"]["class_names"] = tiers
-    params["best_hyperparameters"] = hyperparameter_values[which_set(tiers)] 
+    params["best_hyperparameters"] = hyperparameter_values[which_set(tiers)]
     return params
 
 

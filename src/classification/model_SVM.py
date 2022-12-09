@@ -16,15 +16,15 @@ designation = "Support Vector Classification"
 
 hyperparameter_values = [
     {
-    "C": 0.04625,
-    "kernel": "linear",
-    "gamma": "scale",
-    "shrinking": False,
-    "probability": True,
-    "decision_function_shape": "ovo",
-    "random_state": STATIC_SEED,
+        "C": 0.04625,
+        "kernel": "linear",
+        "gamma": "scale",
+        "shrinking": False,
+        "probability": True,
+        "decision_function_shape": "ovo",
+        "random_state": STATIC_SEED,
     },
-    None
+    None,
 ]
 
 search_grid_options = {
