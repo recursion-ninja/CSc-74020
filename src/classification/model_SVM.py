@@ -1,5 +1,5 @@
 from classifier_specification import STATIC_SEED, model_evaluation
-from featureset_specification import default_feature_specification
+from featureset_specification import default_feature_specification, which_set
 from numpy import linspace
 from sklearn.svm import SVC
 from copy import deepcopy
@@ -14,28 +14,32 @@ classifier = SVC()
 
 designation = "Support Vector Classification"
 
-hyperparameter_values = {
-    "C": 0.04625,
-    "kernel": "linear",
-    "gamma": "scale",
-    "shrinking": False,
-    "probability": True,
-    "decision_function_shape": "ovo",
-    "random_state": STATIC_SEED,
-}
+hyperparameter_values = [
+    {
+        "C": 0.04625,
+        "decision_function_shape": "ovo",
+        "gamma": "scale",
+        "kernel": "linear",
+        "probability": True,
+        "random_state": STATIC_SEED,
+        "shrinking": False,
+    },
+    None,
+]
+
 search_grid_options = {
     "C": (
         [10 ** (-1 * i) for i in range(0, 9)]
         + list(linspace(0.005, 0.001, num=31))
         + [0.04625]
     ),
-    "kernel": ["linear", "poly", "rbf", "sigmoid"],
+    "decision_function_shape": ["ovo", "ovr"],
     "degree": range(2, 17),
     "gamma": ["scale", "auto"],
-    "shrinking": [False, True],
+    "kernel": ["linear", "poly", "rbf", "sigmoid"],
     "probability": [False, True],
-    "decision_function_shape": ["ovo", "ovr"],
     "random_state": [STATIC_SEED],
+    "shrinking": [False, True],
 }
 
 
@@ -57,9 +61,10 @@ def best_classifier():
     return classifier.set_params(hyperparameter_values)
 
 
-def elo_tier_bins(elo_bound):
+def with_tiers(tiers):
     params = deepcopy(evaluation_parameters)
-    params["dataset_params"]["standardized_label_classes"] = elo_bound
+    params["dataset_params"]["class_names"] = tiers
+    params["best_hyperparameters"] = hyperparameter_values[which_set(tiers)]
     return params
 
 

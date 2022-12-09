@@ -1,0 +1,43 @@
+%\documentclass[tikz]{standalone}
+%\usepackage{tikz}
+%\usetikzlibrary{decorations.pathreplacing,shapes}
+
+%\begin{document}
+\begin{tikzpicture}[auto]
+\foreach \c/\i [count=\n] in  
+{green!20/$\frac{1}{8}$,green!20/$\frac{1}{4}$,green!20/$\frac{1}{2}$,blue!20/1,blue!20/2,blue!20/3,blue!20/4}
+\node[draw,fill=\c,minimum height=1cm,minimum width = 1cm,xshift=\n*1cm,font=\ttfamily](NP\n){\i} ;
+
+\draw [decoration={brace,mirror,raise=5pt},decorate] (NP1.south west) -- node[below=10pt]{$\textsc{Trivial}$}(NP3.south east);
+
+\node [tape, draw,,fill=blue!20,minimum height=0.5cm,minimum width = 1cm,tape bend top=none,
+tape bend height=0.4cm,rotate=90] at (7.6,0) (t) {};
+\node [tape, draw,,fill=blue!20,minimum height=0.5cm,minimum width = 1cm,tape bend top=none,
+tape bend height=0.4cm,rotate=270] at (9.4,0) (t) {};
+
+\node at (8.5, 0.5) {\dots};
+\node at (8.5,-0.5) {\dots};
+
+\foreach \c/\i [count=\m] in  
+{blue!20/19,blue!20/20,red!20/21,red!20/21} 
+\node[draw,fill=\c,minimum height=1cm,minimum width = 1cm,xshift=9cm+\m*1cm](NS\m){\i} ;
+%\draw [decoration={brace,mirror,raise=5pt},decorate] (N2.south west) --  node[below=10pt]{$M_d$}(N2.south east); 
+
+\node [tape, draw,,fill=red!20,minimum height=0.5cm,minimum width = 1cm,tape bend top=none,
+tape bend height=0.4cm,rotate=90] at (13.625,0) (t) {};
+\node [tape, draw,,fill=red!20,minimum height=0.5cm,minimum width = 1cm,tape bend top=none,
+tape bend height=0.4cm,rotate=270] at (15.425,0) (t) {};
+
+\node at (14.525, 0.5) {\dots};
+\node at (14.525,-0.5) {\dots};
+
+\foreach \c/\i [count=\m] in  
+{red!20/29,red!20/30} 
+\node[draw,fill=\c,minimum height=1cm,minimum width = 1cm,xshift=15cm+\m*1cm](NT\m){\i} ;
+\draw [decoration={brace,raise=5pt},decorate] (NP4.north west) --  node[above=10pt]{$\textsc{Character Level Equivalent}$} (NS2.north east); 
+
+\draw [decoration={brace,mirror,raise=5pt},decorate] (NS3.south west) -- node[below=10pt]{$\textsc{Cosmic}$}(NT2.south east);
+
+\end{tikzpicture}
+
+%\end{document}

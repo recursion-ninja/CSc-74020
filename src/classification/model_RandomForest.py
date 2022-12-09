@@ -1,5 +1,5 @@
 from classifier_specification import STATIC_SEED, model_evaluation
-from featureset_specification import default_feature_specification
+from featureset_specification import default_feature_specification, which_set
 from sklearn.ensemble import RandomForestClassifier
 from copy import deepcopy
 
@@ -13,24 +13,27 @@ classifier = RandomForestClassifier()
 
 designation = "Random Forest"
 
+hyperparameter_values = [
+    {
+        "bootstrap": True,
+        "class_weight": "balanced",
+        "criterion": "entropy",
+        "max_features": "auto",
+        "n_estimators": 150,
+        "oob_score": False,
+        "random_state": STATIC_SEED,
+    },
+    None,
+]
 
 search_grid_options = {
-    "n_estimators": [10 * i for i in range(1, 16)],
+    "bootstrap": [False, True],
+    "class_weight": [None, "balanced", "balanced_subsample"],
     "criterion": ["gini", "entropy"],
     "max_features": ["auto", "sqrt", "log2"],
-    "bootstrap": [False, True],
+    "n_estimators": [10 * i for i in range(1, 16)],
     "oob_score": [False, True],
-    "class_weight": [None, "balanced", "balanced_subsample"],
     "random_state": [STATIC_SEED],
-}
-hyperparameter_values = {
-    "n_estimators": 150,
-    "criterion": "entropy",
-    "max_features": "auto",
-    "bootstrap": True,
-    "oob_score": False,
-    "class_weight": "balanced",
-    "random_state": STATIC_SEED,
 }
 
 
@@ -52,9 +55,10 @@ def best_classifier():
     return classifier.set_params(**hyperparameter_values)
 
 
-def elo_tier_bins(elo_bound):
+def with_tiers(tiers):
     params = deepcopy(evaluation_parameters)
-    params["dataset_params"]["standardized_label_classes"] = elo_bound
+    params["dataset_params"]["class_names"] = tiers
+    params["best_hyperparameters"] = hyperparameter_values[which_set(tiers)]
     return params
 
 
