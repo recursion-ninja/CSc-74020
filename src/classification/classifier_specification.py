@@ -214,49 +214,38 @@ def classifier_specification(
             "F1 Score": measure("f1"),
             "Jaccard": measure("jaccard"),
         }
-    #        fitting = "Precision + recall + F-score support"
-    #        metrics = {
-    #            fitting: measure(precision_recall_fscore_support),
-    #            "Accuraccy (balanced)": measure(balanced_accuracy_score),
-    #
-    #            "Recall": measure(recall_score),
-    #            "F1 Score": measure(f1_score),
-    #            "Jaccard score": measure(jaccard_score),
-    #            "Matthews correlation coefficient": make_scorer(matthews_corrcoef),
-    #            #            "Area under ROC": make_scorer(roc_auc_score(multi_class='ovo', average=METRIC_AVERAGING)),
-    #        }
-    #    hyperparameterSearch = GridSearchCV(
-    #        classifier,
-    #        param_grid,
-    #        scoring=metrics,
-    #        refit=fitting,
-    #        cv=4,
-    #        verbose=1,
-    #        n_jobs=-1,
-    #        return_train_score=True,
-    #    )
 
-    if METRIC_MULTI_SEARCH:
-        #        hyperparameterSearch = GridSearchCV(
-        hyperparameterSearch = GridSearchCVProgressBar(
-            classifier,
-            param_grid,
-            scoring=metrics,
-            refit=fitting,
-            cv=4,
-            verbose=1,
-            n_jobs=4,
-            return_train_score=True,
-        )
-    else:
-        hyperparameterSearch = GridSearchCV(
-            classifier,
-            param_grid,
-            scoring="balanced_accuracy",
-            cv=4,
-            verbose=1,
-            n_jobs=-1,
-        )
+    hyperparameterSearch = GridSearchCV(
+        classifier,
+        param_grid,
+        scoring=metrics,
+        refit=fitting,
+        cv=4,
+        verbose=1,
+        n_jobs=-1,
+        return_train_score=True,
+    )
+
+#    if METRIC_MULTI_SEARCH:
+#            hyperparameterSearch = GridSearchCV(
+#            classifier,
+#            param_grid,
+#            scoring=metrics,
+#            refit=fitting,
+#            cv=4,
+#            verbose=1,
+#            n_jobs=4,
+#            return_train_score=True,
+#        )
+#    else:
+#        hyperparameterSearch = GridSearchCV(
+#            classifier,
+#            param_grid,
+#            scoring="balanced_accuracy",
+#            cv=4,
+#            verbose=1,
+#            n_jobs=-1,
+#        )
     titleOf = fitting if METRIC_AVERAGING else metrics
 
     hyperparameterSearch.fit(X_train_part, Y_train_part)
