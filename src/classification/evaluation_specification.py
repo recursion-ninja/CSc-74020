@@ -7,16 +7,18 @@ Compares all predicted values for all classifiers, for visual reference.
 from classifier_specification import model_evaluation
 from featureset_specification import TIERS_SET
 from copy import deepcopy
+import time
 
 # Import the models
-import model_DecisionTree as DT
-import model_KNN as KNN
-import model_LogisticRegression as LRG
-import model_NaiveBayes as NB
-import model_NeuralNetworkMLP as MLP
-import model_NeuralNetworkRBM as RBM
+import model_AdaBoost as ADA
+# import model_DecisionTree as DT
+# import model_KNN as KNN
+# import model_LogisticRegression as LRG
+# import model_NaiveBayes as NB
+# import model_NeuralNetworkMLP as MLP
+# import model_NeuralNetworkRBM as RBM
 import model_RandomForest as RF
-import model_SVM as SVM
+# import model_SVM as SVM
 
 
 def generate_all_evaluation_tables():
@@ -24,14 +26,15 @@ def generate_all_evaluation_tables():
     for tier_size in TIERS_SET:
         print("\n")
         param_list = [
-            DT.elo_tier_bins(tier_size),
-            KNN.elo_tier_bins(tier_size),
-            LRG.elo_tier_bins(tier_size),
-            NB.elo_tier_bins(tier_size),
-            MLP.elo_tier_bins(tier_size),
-            RBM.elo_tier_bins(tier_size),
+            ADA.elo_tier_bins(tier_size),
+            # DT.elo_tier_bins(tier_size),
+            # KNN.elo_tier_bins(tier_size),
+            # LRG.elo_tier_bins(tier_size),
+            # NB.elo_tier_bins(tier_size),
+            # MLP.elo_tier_bins(tier_size),
+            # RBM.elo_tier_bins(tier_size),
             RF.elo_tier_bins(tier_size),
-            SVM.elo_tier_bins(tier_size),
+            # SVM.elo_tier_bins(tier_size),
         ]
         print("Tier size:\t{}\n\n".format(tier_size))
         generate_evaluation_table(param_list)
@@ -92,7 +95,10 @@ def getDecimal(d, k):
 
 
 def main():
+    start_time = time.time()
     generate_all_evaluation_tables()
+    # print(f"Running time: {time.time() - start_time} seconds.")
+    print(time.strftime("%Hh%Mm%Ss", time.gmtime(time.time() - start_time)))
 
 
 if __name__ == "__main__":
