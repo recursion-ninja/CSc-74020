@@ -13,7 +13,10 @@ classifier = MultinomialNB()
 
 designation = "Multinomial Naïve Bayes"
 
-hyperparameter_values = [{"alpha": 0.01, "fit_prior": False}, None]
+hyperparameter_values = [
+    {"alpha": 0.01, "fit_prior": False},
+    {"alpha": 1, "fit_prior": True},
+]
 
 search_grid_options = {
     "alpha": [10 ** (i - 4) for i in range(0, 9)],

@@ -23,7 +23,15 @@ hyperparameter_values = [
         "solver": "lbfgs",
         "tol": 0.1,
     },
-    None,
+    {
+        "C": 0.0025,
+        "l1_ratio": 0.0,
+        "max_iter": 10000,
+        "penalty": "l2",
+        "random_state": 4178261698,
+        "solver": "lbfgs",
+        "tol": 0.1,
+    },
 ]
 
 search_grid_options = {

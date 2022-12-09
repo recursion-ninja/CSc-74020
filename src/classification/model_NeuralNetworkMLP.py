@@ -32,7 +32,17 @@ hyperparameter_values = [
         "random_state": STATIC_SEED,
         "solver": "adam",
     },
-    None,
+    {
+        "activation": "logistic",
+        "alpha": 0.1,
+        "beta_1": 0.999,
+        "beta_2": 0.99,
+        "early_stopping": False,
+        "learning_rate": "constant",
+        "learning_rate_init": 0.001,
+        "random_state": 4178261698,
+        "solver": "adam",
+    },
 ]
 
 search_grid_options = {
