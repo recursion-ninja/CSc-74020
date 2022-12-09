@@ -4,7 +4,6 @@ import pandas as pd
 
 from matplotlib import pyplot as plt
 
-from pactools.grid_search import GridSearchCVProgressBar
 from sklearn import metrics
 from sklearn.exceptions import ConvergenceWarning
 from sklearn.model_selection import train_test_split, GridSearchCV
