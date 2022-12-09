@@ -16,24 +16,24 @@ designation = "Logistic Regression"
 
 hyperparameter_values = [
     {
-        "penalty": "l2",
-        "solver": "lbfgs",
         "C": 0.05,
-        "tol": 0.1,
         "max_iter": 10000,
+        "penalty": "l2",
         "random_state": STATIC_SEED,
+        "solver": "lbfgs",
+        "tol": 0.1,
     },
     None,
 ]
 
 search_grid_options = {
-    "penalty": ["elasticnet", "l1", "l2"],
-    "solver": ["newton-cg", "lbfgs", "liblinear", "sag", "saga"],
     "C": [20 ** (-1 * i) for i in range(1, 6)],
-    "tol": [10 ** (-1 * i) for i in range(1, 6)],
-    "max_iter": [10 ** (1 + i) for i in range(1, 4)],
-    "random_state": [STATIC_SEED],
     "l1_ratio": linspace(0, 1, num=13),
+    "max_iter": [10 ** (1 + i) for i in range(1, 4)],
+    "penalty": ["elasticnet", "l1", "l2"],
+    "random_state": [STATIC_SEED],
+    "solver": ["newton-cg", "lbfgs", "liblinear", "sag", "saga"],
+    "tol": [10 ** (-1 * i) for i in range(1, 6)],
 }
 
 

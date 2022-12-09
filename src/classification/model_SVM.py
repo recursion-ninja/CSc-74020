@@ -17,12 +17,12 @@ designation = "Support Vector Classification"
 hyperparameter_values = [
     {
         "C": 0.04625,
-        "kernel": "linear",
-        "gamma": "scale",
-        "shrinking": False,
-        "probability": True,
         "decision_function_shape": "ovo",
+        "gamma": "scale",
+        "kernel": "linear",
+        "probability": True,
         "random_state": STATIC_SEED,
+        "shrinking": False,
     },
     None,
 ]
@@ -33,13 +33,13 @@ search_grid_options = {
         + list(linspace(0.005, 0.001, num=31))
         + [0.04625]
     ),
-    "kernel": ["linear", "poly", "rbf", "sigmoid"],
+    "decision_function_shape": ["ovo", "ovr"],
     "degree": range(2, 17),
     "gamma": ["scale", "auto"],
-    "shrinking": [False, True],
+    "kernel": ["linear", "poly", "rbf", "sigmoid"],
     "probability": [False, True],
-    "decision_function_shape": ["ovo", "ovr"],
     "random_state": [STATIC_SEED],
+    "shrinking": [False, True],
 }
 
 

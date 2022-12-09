@@ -31,11 +31,11 @@ hyperparameter_values = [
 
 
 search_grid_options = {
+    "algorithm": ["auto", "ball_tree", "kd_tree"],
+    "leaf_size": list(range(1, 10)) + list(range(10, 51, 5)),
     "n_neighbors": list(range(1, 23, 2)) + list(range(23, 32)) + list(range(33, 38, 2)),
     "p": range(1, 5),
     "weights": ["distance", "uniform"],
-    "algorithm": ["auto", "ball_tree", "kd_tree"],
-    "leaf_size": list(range(1, 10)) + list(range(10, 51, 5)),
 }
 
 

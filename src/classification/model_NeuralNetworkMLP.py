@@ -22,29 +22,29 @@ beta_candidates_vals = (
 
 hyperparameter_values = [
     {
-        "solver": "adam",
         "activation": "logistic",
-        "learning_rate": "constant",
-        "learning_rate_init": 0.001,
         "alpha": 0.1,
         "beta_1": 0.8,
         "beta_2": 0.99,
         "early_stopping": False,
+        "learning_rate": "constant",
+        "learning_rate_init": 0.001,
         "random_state": STATIC_SEED,
+        "solver": "adam",
     },
     None,
 ]
 
 search_grid_options = {
     "activation": ["logistic"],
-    "solver": ["adam"],
-    "learning_rate": ["constant", "invscaling", "adaptive"],
-    "learning_rate_init": [10 ** (i - 5) for i in range(0, 10)],
     "alpha": [0.1],
     "beta_1": beta_candidates_vals,
     "beta_2": beta_candidates_vals,
     "early_stopping": [False],
+    "learning_rate": ["constant", "invscaling", "adaptive"],
+    "learning_rate_init": [10 ** (i - 5) for i in range(0, 10)],
     "random_state": [STATIC_SEED],
+    "solver": ["adam"],
 }
 
 
