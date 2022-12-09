@@ -42,7 +42,7 @@ COSMIC_BOUND = 4700
 
 
 default_feature_specification = {
-    "class_names": [],
+    "class_names": TIERS_SET[0],
     "decorrelate": 0.75,
     "textual": False,
 }
