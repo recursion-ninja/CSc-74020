@@ -65,6 +65,9 @@ def dataset_read():
 
 # @f.lru_cache(maxsize=1)
 def retrieve_monster_dataset(class_names, decorrelate=None, textual=False):
+    if len(class_names) < 2:
+        raise "Error class_names is too small!\n" + str(class_names)
+
     absPath = p.Path(__file__).parent.parent.resolve()
     dataset = dataset_read()
     dataset = bin_labels_into_tiers(dataset, n_tiers=len(class_names))
