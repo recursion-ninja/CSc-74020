@@ -203,10 +203,11 @@ def classifier_specification(
         fitting = True
         metrics = "balanced_accuracy"
     else:
-        fitting = "Area under ROC"
+        # fitting = "Area under ROC"
+        fitting = "Balanced Accuracy"
         measure = lambda x: (x + "_" + METRIC_AVERAGING)
         metrics = {
-            fitting: "roc_auc_ovo_weighted",
+            fitting: "balanced_accuracy",
             "Accuracy": "balanced_accuracy",
             "Precision": measure("precision"),
             "Recall": measure("recall"),

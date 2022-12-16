@@ -1,8 +1,13 @@
 from classifier_specification import STATIC_SEED, model_evaluation
-from featureset_specification import default_feature_specification, which_set
+from featureset_specification import (
+    NON_BINARY_COLUMNS,
+    default_feature_specification,
+    which_set,
+)
 from numpy import linspace
 from sklearn.svm import SVC
 from copy import deepcopy
+from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
@@ -11,7 +16,9 @@ from sklearn.preprocessing import StandardScaler
 #########################################
 
 classifySVM = SVC()
-inputScaler = StandardScaler(copy=True)
+inputScaler = ColumnTransformer(
+    [("columnScaler", StandardScaler(copy=True), NON_BINARY_COLUMNS)]
+)
 
 classifier = Pipeline(
     steps=[
@@ -25,16 +32,16 @@ classifier = SVC()
 designation = "Support Vector Classification"
 
 hyperparameter_values = [
-    {
-        "C": 0.04625,
-        "decision_function_shape": "ovo",
-        "gamma": "scale",
-        "kernel": "linear",
-        "probability": True,
-        "random_state": STATIC_SEED,
-        "shrinking": False,
-    },
-    #    None,
+    #    {
+    #        "C": 0.04625,
+    #        "decision_function_shape": "ovo",
+    #        "gamma": "scale",
+    #        "kernel": "linear",
+    #        "probability": True,
+    #        "random_state": STATIC_SEED,
+    #        "shrinking": False,
+    #    },
+    None,
     {
         "C": 16.457142857142856,
         "class_weight": "balanced",
@@ -61,10 +68,10 @@ hyperparameter_values = [
 
 
 search_grid_options = {
-    "C": list(linspace(16.4, 16.8, num=64)),
-    "class_weight": ["balanced"],
+    "C": [10 ** (-1 * i) for i in range(4)],
+    "class_weight": ["balanced", None],
     "decision_function_shape": ["ovo"],
-    "gamma": ["scale"],
+    "gamma": ["scale", "auto"],
     "kernel": ["rbf"],  # [ "rbf", "sigmoid"], # [ "poly" ],
     "probability": [True],
     "random_state": [STATIC_SEED],

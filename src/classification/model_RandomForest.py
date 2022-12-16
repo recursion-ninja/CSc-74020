@@ -14,16 +14,16 @@ classifier = RandomForestClassifier()
 designation = "Random Forest"
 
 hyperparameter_values = [
-    {
-        "bootstrap": True,
-        "class_weight": "balanced",
-        "criterion": "entropy",
-        "max_features": "auto",
-        "n_estimators": 150,
-        "oob_score": False,
-        "random_state": STATIC_SEED,
-    },
-    #    None,
+    #    {
+    #        "bootstrap": True,
+    #        "class_weight": "balanced",
+    #        "criterion": "entropy",
+    #        "max_features": "auto",
+    #        "n_estimators": 150,
+    #        "oob_score": False,
+    #        "random_state": STATIC_SEED,
+    #    },
+    None,
     {
         "bootstrap": True,
         "class_weight": None,

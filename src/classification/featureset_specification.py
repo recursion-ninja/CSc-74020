@@ -48,6 +48,9 @@ default_feature_specification = {
 }
 
 
+NON_BINARY_COLUMNS = []
+
+
 def dataset_path():
     absPath = p.Path(__file__).parent.parent.resolve()
     return absPath.parent.joinpath("data", "dnd-5e-monsters.csv")
@@ -72,6 +75,17 @@ def retrieve_monster_dataset(class_names, decorrelate=None, textual=False):
     dataset = dataset_read()
     dataset = bin_labels_into_tiers(dataset, n_tiers=len(class_names))
     dataset = feature_expunging(dataset, decorrelate, textual)
+
+    # Get Non-Binary columns
+    maxValues = dataset.max(axis=0)
+    minValues = dataset.min(axis=0)
+    nonBinary = []
+    for col in dataset.columns:
+        if minValues[col] < 0 or 1 < maxValues[col]:
+            nonBinary.append(col)
+
+    NON_BINARY_COLUMNS = deepcopy(nonBinary)
+
     return dataset
 
 
