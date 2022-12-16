@@ -13,7 +13,7 @@ from sklearn.preprocessing import MinMaxScaler
 #########################################
 
 bernouliRMB = BernoulliRBM()
-inputScaler = MinMaxScaler(copy=False)
+inputScaler = MinMaxScaler(copy=True)
 logisticReg = LogisticRegression(solver="newton-cg", tol=1)
 
 classifier = Pipeline(
@@ -36,11 +36,24 @@ hyperparameter_values = [
         "logisticReg__C": 0.05,
         "logisticReg__max_iter": 10000,
         "logisticReg__penalty": "l2",
-        "logisticReg__random_state": 4178261698,
+        "logisticReg__random_state": STATIC_SEED,
         "logisticReg__solver": "lbfgs",
         "logisticReg__tol": 0.1,
     },
-    None,
+    #    None,
+    {
+        "bernouliRMB__batch_size": 16,
+        "bernouliRMB__learning_rate": 0.31622776601683794,
+        "bernouliRMB__n_components": 128,
+        "bernouliRMB__n_iter": 2,
+        "bernouliRMB__random_state": 4178261698,
+        "logisticReg__C": 0.05,
+        "logisticReg__max_iter": 10000,
+        "logisticReg__penalty": "l2",
+        "logisticReg__random_state": STATIC_SEED,
+        "logisticReg__solver": "lbfgs",
+        "logisticReg__tol": 0.1,
+    },
 ]
 
 search_grid_options = {
@@ -49,12 +62,13 @@ search_grid_options = {
     "bernouliRMB__batch_size": list(linspace(2, 16, num=8).astype(int)),
     "bernouliRMB__n_iter": list(linspace(2, 16, num=8).astype(int)),
     "bernouliRMB__random_state": [STATIC_SEED],
-    "logisticReg__penalty": ["l2"],
-    "logisticReg__solver": ["lbfgs"],
-    "logisticReg__C": [0.05],
-    "logisticReg__tol": [0.1],
-    "logisticReg__max_iter": [10000],
+    "logisticReg__C": [20 ** (-1 * i) for i in range(1, 6)],
+    "logisticReg__l1_ratio": linspace(0, 1, num=13),
+    "logisticReg__max_iter": [10 ** (1 + i) for i in range(1, 4)],
+    "logisticReg__penalty": ["elasticnet", "l1", "l2"],
     "logisticReg__random_state": [STATIC_SEED],
+    "logisticReg__solver": ["newton-cg", "lbfgs", "liblinear", "sag", "saga"],
+    "logisticReg__tol": [10 ** (-1 * i) for i in range(1, 6)],
 }
 
 

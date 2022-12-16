@@ -23,16 +23,25 @@ hyperparameter_values = [
         "oob_score": False,
         "random_state": STATIC_SEED,
     },
-    None,
+    #    None,
+    {
+        "bootstrap": True,
+        "class_weight": None,
+        "criterion": "gini",
+        "max_features": "auto",
+        "n_estimators": 150,
+        "oob_score": False,
+        "random_state": 4178261698,
+    },
 ]
 
 search_grid_options = {
-    "bootstrap": [False, True],
-    "class_weight": [None, "balanced", "balanced_subsample"],
-    "criterion": ["gini", "entropy"],
-    "max_features": ["auto", "sqrt", "log2"],
-    "n_estimators": [10 * i for i in range(1, 16)],
-    "oob_score": [False, True],
+    "bootstrap": [True],  # [False, True],
+    "class_weight": [None],  # , "balanced", "balanced_subsample"],
+    "criterion": ["gini"],  # ["gini", "entropy"],
+    "max_features": ["auto"],  # ["auto", "sqrt", "log2"],
+    "n_estimators": [10 * i for i in range(10, 26)],
+    "oob_score": [False],  # [False, True],
     "random_state": [STATIC_SEED],
 }
 
