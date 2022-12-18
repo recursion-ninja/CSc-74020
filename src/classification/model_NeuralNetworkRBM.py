@@ -10,17 +10,26 @@ from sklearn.compose import ColumnTransformer
 from sklearn.linear_model import LogisticRegression
 from sklearn.neural_network import BernoulliRBM
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import MinMaxScaler, RobustScaler
+from sklearn.preprocessing import MinMaxScaler, Normalizer, RobustScaler
 
 
 #########################################
 ###   Model Specific Definitions:
 #########################################
 
-bernouliRMB = BernoulliRBM()
-inputScaler = ColumnTransformer(
-    [("columnScaler", RobustScaler(copy=True), NON_BINARY_COLUMNS)]
+scaleColumn = Pipeline(
+    steps=[
+        ("Robust-Scaling", RobustScaler(copy=False, quantile_range=(20, 80), unit_variance=True)),
+        ("Normalize", Normalizer(copy=False)),
+    ]
 )
+
+inputScaler = ColumnTransformer(
+    transformers=[("ColumnScaler", scaleColumn, NON_BINARY_COLUMNS)],
+    remainder="passthrough"
+)
+
+bernouliRMB = BernoulliRBM()
 logisticReg = LogisticRegression(solver="newton-cg", tol=1)
 
 classifier = Pipeline(
@@ -47,7 +56,7 @@ hyperparameter_values = [
         "logisticReg__solver": "lbfgs",
         "logisticReg__tol": 0.1,
     },
-    None,
+    # None,
     {
         "bernouliRMB__batch_size": 16,
         "bernouliRMB__learning_rate": 0.31622776601683794,
