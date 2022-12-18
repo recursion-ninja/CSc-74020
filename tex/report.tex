@@ -94,7 +94,7 @@
 
 \begin{abstract}
 The project explores the applicability of machine learning classifiers as a proposed substitute for the deficient monster Challenge Rating defined in Dungeons and Dragons 5th Edition.
-Multiple supervised learning models will be trained on a dataset of monster features listed Dungeons and Dragons.
+Multiple supervised learning models will be trained on a dataset of monster features listed in Dungeons and Dragons.
 Monster Elo scores will be used as labels.
 The project's resulting classifiers will predict a monster's lethality, ordering them into five tiers.
 \end{abstract}
@@ -125,16 +125,16 @@ In a supplementary \DnD work, \emph{Xanathar's Guide to Everything} \cite{DnD5eX
 	A party of four characters facing an encounter designed for six characters would fall into this category.
 \end{displayquote}
 
-It is clear from the source material descriptions that if a baseline part of four characters is used, then when party level is same level as the monster's \CR the encounter lethality is considered ``worthy,'' where as a monster with \CR \emph{two less} than the party level being considered ``easy'' and \CR \emph{two greater} is ``deadly.''
-Unfortunately, the official \CR values that have been published are more often than not poor estimates of monster lethality in practice.
+It is clear from the source material descriptions that if a baseline part of four characters is used, then when the party level is the same level as the monster's \CR the encounter lethality is considered ``worthy.'' In contrast, a monster with \CR \emph{two less} than the party level being considered ``easy'' and \CR \emph{two greater} is ``deadly.''
+Unfortunately, the official \CR values that have been published are, more often than not, poor estimates of monster lethality in practice.
 
 
 \subsection{Proposed Solution}
 
 %In this project, we propose producing an substitute ranking of monster lethality, ordering them into \emph{five tiers} $\left[\;\TierLeast,\,\TierLess,\,\TierFair,\,\TierMore,\,\TierMost\;\right]$.
-In this project, we propose producing an substitute ranking of monster lethality.
-The original \CR ranking system is ``semi-logarithmic,''and reminiscent of the Elo ranking system \cite{elo1978rating}.
-Unsurprisingly, the calculation of \DnD Elo ranks has been preformed by other.
+In this project, we propose producing a substitute ranking of monster lethality.
+The original \CR ranking system is ``semi-logarithmic'' and reminiscent of the Elo ranking system \cite{elo1978rating}.
+Unsurprisingly, the calculation of \DnD Elo ranks has been performed by others.
 Hence it seems natural that the substituted lethality system ought to be based on the more flexible Elo ranking system.
 We propose two options involving machine learning predictors for \DnD monster lethality.
 The predictor will process a \DnD monster's features and predict the monster's lethality based on the Elo ranking.
@@ -144,7 +144,7 @@ The predictor will process a \DnD monster's features and predict the monster's l
 
 One solution would be for a player to entirely ignore the concept of the \CR system from the core material. Instead, when playing \DnD, a specific party's Elo rank can be tracked based on their successful and unsuccessful encounters.
 Future encounters can be designed to a desired level of lethality by considering the part's current Elo Rank and selecting monsters with appropriately similar Elo ranks.
-The authors conjecture that in practice, the adoption of Elo rank tracking in conjunction with the application of machine learning will produce a better indicator of monster lethality than the conceptual framework of the \CR system.
+The authors conjecture that, in practice, the adoption of Elo rank tracking in conjunction with the application of machine learning will produce a better indicator of monster lethality than the conceptual framework of the \CR system.
 
 However, this solution requires the players to be familiar with Elo's algorithm, as well as having access to Elo ranks of all possible \DnD monsters.
 Furthermore, it requires a willingness for the players to learn and maintain adjusted Elo ranking for the party and \DnD monsters.
@@ -184,11 +184,11 @@ In our project, we evaluate the predictive power of multiple machine learning al
 
 
 \section{Related work}
-Some work has been done on applying ML to table top role playing games (TTRPGs) in the past \cite{rameshkumar2020storytelling, macinnes2019d, cavanaugh2016machine, faria2019adaptive, riedl2013interactive}.
+Some work has been done on applying ML to tabletop role-playing games (TTRPGs) in the past \cite{rameshkumar2020storytelling, macinnes2019d, cavanaugh2016machine, faria2019adaptive, riedl2013interactive}.
 Much of the work revolves around the more tractable problem of selecting appropriate ambient music choices for players to experience based on the current emotional tone of the game \cite{ferreira2017mtg, risi2020increasing, padovani2017bardo, ferreira2020computer}.
 However, the most popular TTRPG, Dungeons and Dragons (\DnD) has been used as a difficult test-bed for ML experimentation \cite{martin2018dungeons}.
-This particular previous work, while quite notable, focused entirely on non-combat aspects of \DnD, eschewing a core component and past time of \DnD; resolving conflict via numerical simulation.
-In our project we will grapple with this numeric aspect of \DnD, focusing on a small subset of the \DnD combat system; quantifying the relative lethality of a monster.
+This particular previous work, while quite notable, focused entirely on non-combat aspects of \DnD, eschewing a core component and past time of \DnD, resolving conflict via numerical simulation.
+In our project, we will grapple with this numeric aspect of \DnD, focusing on a small subset of the \DnD combat system, quantifying the relative lethality of a monster.
 To the best of the author's knowledge, the proposed project will be the first serious attempt to apply machine learning to a numerical aspect of \DnD.
 Consequently, there is no \emph{known} previous on which to draw a comparison.
 
@@ -199,10 +199,10 @@ Consequently, there is no \emph{known} previous on which to draw a comparison.
 	\subsection{D\&D Monster Data}\label{the-dd-monster-data}}
 
 Given the close resemblance between the philosophies of the \CR and the Elo ranking systems, it is not surprising that others have considered applying Elo's ranking algorithm to \DnD monsters.
-In fact, these exists a pre--computed Elo score for most \DnD monsters compiled online and continually updated by \DnDCombat \cite{DnDCombat}.
+In fact, there exists a pre-computed Elo score for most \DnD monsters compiled online and continually updated by \DnDCombat \cite{DnDCombat}.
 These Elo ranks will serve as labels for supervised learning.
 Additionally, a large data-set of \DnD monsters has been pre--compiled online by \FiveETools \cite{Mirror5eTools}
-We assemble a rich \DnD monster data-set by linking the measurements from \FiveETools with Elo-ranking labels from \DnDCombat via string matching on monster name .
+We assemble a rich \DnD monster data-set by linking the measurements from \FiveETools with Elo-ranking labels from \DnDCombat via string matching on monster name.
 
 
 \hypertarget{datset-assembly}{%
@@ -307,9 +307,9 @@ We extract the ordinal values via a two-step procedure.
 
 \subsubsection{Outlier isolation}
 
-First, a threshold $\mathcal{T}$ is identified separating outliers on the upper end of the range from the normally distributed values within \Column{Elo Rank} column.
+First, a threshold $\mathcal{T}$ is identified, separating outliers on the upper end of the range from the normally distributed values within \Column{Elo Rank} column.
 The \DnD monsters with Elo rankings $r \ge \mathcal{T}$ are extremely powerful, and their granular classification is generally not useful for players.
-Rather, inclusion of these \DnD monsters in an encounter is a matter of appropriateness as a story-concluding encounter rather than consideration in designing an interluding encounter.
+Rather, the inclusion of these \DnD monsters in an encounter is a matter of appropriateness as a story-concluding encounter rather than consideration in designing an interluding encounter.
 Therefore we manually classify all \DnD monsters with an Elo ranking $r \ge \mathcal{T}$ as \TierCosmic tier.
 The \TierCosmic is encoded as $11$ for \TERC and $21$ for \TER.
 We identified the threshold value $\mathcal{T} = 4700$.
@@ -318,17 +318,17 @@ We identified the threshold value $\mathcal{T} = 4700$.
 \subsubsection{Classes partitioned by clustering}
 
 Secondly, the remaining normally distributed \DnD monsters with Elo ranking $r < \mathcal{T}$ are partitioned into $n - 1$ tiers, either \Qty{11} ranging from \NumericRange{0}{10} for \TERC or \Qty{21} ranging from \NumericRange{0}{20} for \TER.
-The partitions of the normally distributed data conjoined with the manually partitioned outliers of the \TierCosmic results in the desired ordinal classes ranging from \NumericRange{0}{11} for the \TERC and \NumericRange{0}{21} for \TER.
+The partitions of the normally distributed data conjoined with the manually partitioned outliers of the \TierCosmic result in the desired ordinal classes ranging from \NumericRange{0}{11} for the \TERC and \NumericRange{0}{21} for \TER.
 Partitioning of the normally distributed \DnD monsters is performed by K-means clustering into $n - 1$ bins.
 The resulting clusters are encoded as ordinal values in ascending order of the bin's mean value.
 
 
 \subsubsection{Input value and output class distributions}
 
-The distribution of Elo ranking values in dataset is roughly normal, when omitting outliers.
+The distribution of Elo ranking values in the dataset is roughly normal, when omitting outliers.
 After extracting tier classes via outlier isolation and k-means clustering, the output tier classes account for roughly the same size range of input Elo rank values.
 The exceptions which prove the rule are the classes with ordinal values $0$, $n- 2$, and $n - 1$.
-However this is not surprising as these classes contain outlier measurements.
+However, this is not surprising as these classes contain outlier measurements.
 The Elo rank distribution and resulting partitions for \TERC and \TER are delineated in Figures \ref{fig:Partitions-TERC} \ref{fig:Partitions-TER}, respectively.
  
 \begin{figure}[htb]
@@ -347,12 +347,11 @@ The Elo rank distribution and resulting partitions for \TERC and \TER are deline
 \hypertarget{extraction-of-indicator-tags}{
 \subsubsection{Additional Indicator Tags}\label{extraction-of-indicator-tags}}
 
-The final feature extraction endeavor involves the columns, labeled
-labeled \Column{Damage\ Tags}, \Column{Spellcasting\ Tags} and \Column{Trait\ Tags} indexed \IndexRange{66}{70}.
+The final feature extraction endeavor involves the columns, labeled \Column{Damage\ Tags}, \Column{Spellcasting\ Tags} and \Column{Trait\ Tags} indexed \IndexRange{66}{70}.
 Each column contains a list of binary tags.
-The existence of the tag in the list indicates a positive value for that binary indicator where as absence from the list indicates a negative value.
+The existence of the tag in the list indicates a positive value for that binary indicator, whereas absence from the list indicates a negative value.
 The column values represent an encoding of the power set of possible binary indicators.
-Hence, these columns can be expanded to extract an additional features as the form of multiple binary indicator columns.
+Hence, these columns can be expanded to extract additional features in the form of multiple binary indicator columns.
 All encoded binary indicators of these columns are extracted, totaling \Qty{63} features combined.
 This feature extraction nearly doubles the fully expanded dataset size, now totaling to \Qty{136} features.
 The fully extracted dataset is presented in Table \ref{tab:fully-extracted-dataset}.
@@ -379,7 +378,7 @@ Hence, the consideration of Elo rank values by an ML classifier would constitute
 \hypertarget{text-removal}{
 \subsubsection{Text removal}\label{text-removal}}
 
-Next the textual columns, \Column{Name} and \Column{Type} indexed \IndexRange{0}{1} are dropped from analysis.
+Next, the textual columns, \Column{Name} and \Column{Type} indexed \IndexRange{0}{1} are dropped from analysis.
 These columns do not influence combat efficacy and are not convertible to a meaningful
 numeric representation.
 Their absence makes the machine learning process much smoother.
@@ -405,7 +404,7 @@ Consequently, we dropped the features in Table \ref{tab:dropped-features}.
 
 After feature extraction \emph{and} feature selection, the resulting dataset was comprised of \Qty{96} features.
 See Table \ref{tab:final-dataset} for a reference of column names and types of the finalized dataset.
-All the supervised learning models under considered outlined in Section \ref{model-specification} were trained on this dataset.
+All the supervised learning models under consideeration outlined in Section \ref{model-specification} were trained on this dataset.
 
 
 \section{Methods}
@@ -418,7 +417,7 @@ We take the prepared dataset and train multiple machine learning classifiers.
 We use 80\% of the randomly permuted data as the training set and the remaining 20\% as the test set.
 This partition data was stratified by the \Column{Tier} column to ensure that each tier is represented.
 Furthermore, we partition the training set again, using 80\% as a learning set and the remaining 20\% as the validation set.
-Model selection was performed on the training set; comprised of the "learning" and validation subsets.
+Model selection was performed on the training set, comprised of the "learning" and validation subsets.
 
 \begin{table}[!htbp] \centering 
 \caption{Distribution for partitioning dataset,	stratified by \Column{Tier}.}
@@ -440,7 +439,7 @@ Validate & 16\% \\
 \hypertarget{model-specification}{%
 \subsection{Model Specification}\label{model-specification}}
 The following list contains the proposed machine learning models under consideration in our classifier search.
-We will perform a hyperparameter search evaluate and then train each model under consideration.
+We will perform a hyperparameter search evaluation, and then train each model under consideration.
 Subsequently, the predictive capability of the models will be compared by their Precision, Recall, and F1 metrics.
 The best performing classifier(s) will have their model(s) further tuned to produce a conclusive ``\DnD Monster Elo ranking classifier.''
 
@@ -449,31 +448,33 @@ The best performing classifier(s) will have their model(s) further tuned to prod
 	\item
 	\textbf{Decision Tree:} Decision trees make extremely fast classifiers once constructed, but can be incredibly time consuming to build.
 	We will try our luck with this model and see if an effective classifier could be built within a reasonable time frame.
-	We might get a surprising result, but not placing a lot of hope in this model.
+	We might get a surprising result, but we do not place a lot of hope in this model.
 	\item
-	\textbf{K Nearest Neighbors:} A very simple model with a theoretical bound on it's maximum inaccuracy.
+	\textbf{K Nearest Neighbors:} A very simple model with a theoretical bound on its maximum inaccuracy.
 	We will use this as our initial classifier to get our bearing and some quick benchmarking numbers.
 	\item
-	\textbf{Logistic Regression:} We recall from class that the a logistic regression
+	\textbf{Logistic Regression:} We recall from class that the logistic regression
 	can be an effective and efficient model for multi-class output, which
 	our tier list is.
 	This model will be considered because we suspected that the features have some linear, but not polynomial, relationship(s).
-	The	logistic regression ought to capture and train well if linear relationships exists between the features and tier list labels.
+	The	logistic regression ought to capture and train well if linear relationships exist between the features and tier list labels.
 	\item
-	\textbf{Multinomial Naive Bayes:} Independent features are an important factor for the efficacy of Naive Bayes models.
-	Naive Bayes models are supposed to train well on small number of observations.
+	\textbf{Multinomial Naive Bayes:} Independent features are important factors for the efficacy of Naive Bayes models.
+	Naive Bayes models are supposed to train well on a small number of observations.
 	Our dataset will likely be just above the \texttt{1000} observation threshold, so we have high hopes that this model would train well.
 	This will be our second model used to get quick benchmarking numbers.
 	\item
 	\textbf{Multi-layer Perceptron:} We wanted to experiment with the
 	concept of artificial neural nets.
-	The inclusion of this model will allow us to to get some experience with an instance of the buzzword-worthy model.
+	The inclusion of this model will allow us to get some experience with an instance of the buzzword-worthy model.
 	Given the great flexibility of ANNs, we expected very good performance from this model.
 	\item
 	\textbf{Random Forest:} Given the unknown nature and limited domain knowledge that we could use to direct the machine learning process, the use of at least one ensemble learning technique seems to be a prudent choice.
 	\item
 	\textbf{Support Vector Machines:} In an ideal case, the data-set will be linearly separable in some hyperspace.
-	If this ideal case matches the reality of the data-set, an SVM will perform exceptionally well, making it's inclusion is a natural choice.
+	If this ideal case matches the reality of the data-set, an SVM will perform exceptionally well, making its inclusion a natural choice.
+	\item
+	\textbf{AdaBoost:} AdaBoost is often used with other learning models to improve performance. It is known that the final model can converge to a strong learner if individual learners are slightly better than random guessing, i.e., the error rate is lower than 0.5 in binary classification. Since AdaBoost is often considered the best classifier when used together with the Decision Tree (as a weak learner)(\footnote{\url{https://en.wikipedia.org/wiki/AdaBoost}}), we will use them together and hope it will prove itself as the best classifier once again.
 \end{enumerate}
 
 
@@ -482,8 +483,8 @@ The best performing classifier(s) will have their model(s) further tuned to prod
 
 We performed model selection mainly by utilizing the \href{https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html}{\texttt{GridSearchCV}} function.
 For each model, for both \TERC and \TER, a `wide and sparse sampling'' over the parameter space was performed.
-Based on the results of this initial model selection, a subsequent ``denser'' hyperparameter search(es) were conducted, centered about the results from the initial sparse search.
-This two pass approach proved quite effective both in terms of runtime efficiency and classifier efficacy.
+Based on the results of this initial model selection, a subsequent ``denser'' hyperparameter search(es) was conducted, centered about the results from the initial sparse search.
+This two-pass approach proved quite effective both in terms of runtime efficiency and classifier efficacy.
 The hyperparameters resulting from our model selection process can be found by referencing the executable file corresponding to the model listed in Table \ref{tab:hyperparameters}, and inspecting the definition of \texttt{hyperparameter\_values} within the file.
 
 
