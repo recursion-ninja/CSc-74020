@@ -474,7 +474,13 @@ The best performing classifier(s) will have their model(s) further tuned to prod
 	\textbf{Support Vector Machines:} In an ideal case, the data-set will be linearly separable in some hyperspace.
 	If this ideal case matches the reality of the data-set, an SVM will perform exceptionally well, making its inclusion a natural choice.
 	\item
-	\textbf{AdaBoost:} AdaBoost is often used with other learning models to improve performance. It is known that the final model can converge to a strong learner if individual learners are slightly better than random guessing, i.e., the error rate is lower than 0.5 in binary classification. Since AdaBoost is often considered the best classifier when used together with the Decision Tree (as a weak learner)(\footnote{\url{https://en.wikipedia.org/wiki/AdaBoost}}), we will use them together and hope it will prove itself as the best classifier once again.
+	\textbf{AdaBoost:} AdaBoost is often used with other learning models to improve performance. It is known that the final model can converge to a strong learner if individual learners are slightly better than random guessing, i.e., the error rate is lower than 0.5 in binary classification. Since AdaBoost is often considered the best classifier when used together with the Decision Tree (as a weak learner)\footnote{\url{https://en.wikipedia.org/wiki/AdaBoost}}, we will use them together and hope it will prove itself as the best classifier once again.
+	\item
+	\textbf{Gradient Boosting:} TODO 
+	\item
+	\textbf{Bernoulli Restricted Boltzmann Machine:} TODO
+
+	
 \end{enumerate}
 
 
@@ -486,6 +492,14 @@ For each model, for both \TERC and \TER, a `wide and sparse sampling'' over the 
 Based on the results of this initial model selection, a subsequent ``denser'' hyperparameter search(es) was conducted, centered about the results from the initial sparse search.
 This two-pass approach proved quite effective both in terms of runtime efficiency and classifier efficacy.
 The hyperparameters resulting from our model selection process can be found by referencing the executable file corresponding to the model listed in Table \ref{tab:hyperparameters}, and inspecting the definition of \texttt{hyperparameter\_values} within the file.
+
+\hypertarget{results}{%
+\section{Results}}
+
+
+\hypertarget{conclusion}{%
+\section{Conclusion/Future Work}}
+
 
 
 %Bibliography
