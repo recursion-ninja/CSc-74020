@@ -21,18 +21,18 @@ beta_candidates_vals = (
 )
 
 hyperparameter_values = [
-    #    {
-    #        "activation": "logistic",
-    #        "alpha": 0.1,
-    #        "beta_1": 0.8,
-    #        "beta_2": 0.99,
-    #        "early_stopping": False,
-    #        "learning_rate": "constant",
-    #        "learning_rate_init": 0.001,
-    #        "random_state": STATIC_SEED,
-    #        "solver": "adam",
-    #    },
-    None,
+    {
+        "activation": "logistic",
+        "alpha": 0.1,
+        "beta_1": 0.1,
+        "beta_2": 0.01,
+        "early_stopping": False,
+        "learning_rate": "constant",
+        "learning_rate_init": 0.001,
+        "random_state": STATIC_SEED,
+        "solver": "adam",
+    },
+    # None,
     {
         "activation": "logistic",
         "alpha": 0.1,
@@ -48,12 +48,14 @@ hyperparameter_values = [
 
 search_grid_options = {
     "activation": ["logistic"],
-    "alpha": [0.1],
-    "beta_1": beta_candidates_vals,
-    "beta_2": beta_candidates_vals,
+    "alpha": [0.62],  # list(linspace(0.5, 0.7, num=11)) + [0.62],  # [0.1],
+    "beta_1": [0.8, 0.84],  # beta_candidates_vals,
+    "beta_2": list(linspace(0.30, 0.32, num=11)),  # + [0.32],  # beta_candidates_vals,
     "early_stopping": [False],
-    "learning_rate": ["constant", "invscaling", "adaptive"],
-    "learning_rate_init": [10 ** (i - 5) for i in range(0, 10)],
+    "learning_rate": ["constant"],  # ["constant", "invscaling", "adaptive"],
+    "learning_rate_init": [
+        0.00145
+    ],  # list(linspace(0.01, 0.0005, num=21)),  # [10 ** (i - 5) for i in range(0, 10)],
     "random_state": [STATIC_SEED],
     "solver": ["adam"],
 }

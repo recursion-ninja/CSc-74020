@@ -13,14 +13,23 @@ classifier = KNeighborsClassifier()
 designation = "K Nearest Neighbors"
 
 hyperparameter_values = [
-    #    {
-    #        "algorithm": "ball_tree",
-    #        "leaf_size": 5,
-    #        "n_neighbors": 30,
-    #        "p": 1,
-    #        "weights": "distance",
-    #    },
-    None,
+    {
+        "algorithm": "ball_tree",
+        "leaf_size": 3,
+        "metric": "l1",
+        "n_neighbors": 7,
+        "p": 1,
+        "weights": "distance",
+    },
+    # None,
+    {
+        "algorithm": "ball_tree",
+        "leaf_size": 1,
+        "metric": "euclidean",
+        "n_neighbors": 5,
+        "p": 1,
+        "weights": "distance",
+    },
     {
         "algorithm": "ball_tree",
         "leaf_size": 15,
@@ -32,8 +41,8 @@ hyperparameter_values = [
 
 
 search_grid_options = {
-    "algorithm": ["auto", "ball_tree", "kd_tree"],
-    "leaf_size": list(range(1, 10)) + list(range(10, 51, 5)),
+    "algorithm": ["ball_tree"],  # ["auto", "ball_tree", "kd_tree"],
+    "leaf_size": list(range(1, 17)) + list(range(10, 51, 5)),
     "metric": [
         "cosine",
         "euclidean",
@@ -43,9 +52,11 @@ search_grid_options = {
         "manhattan",
         "minkowski",
     ],
-    "n_neighbors": list(range(1, 23, 2)) + list(range(23, 32)) + list(range(33, 38, 2)),
+    "n_neighbors": list(
+        range(5, 10)
+    ),  # list(range(1, 23, 2)) + list(range(23, 32)) + list(range(33, 38, 2)),
     "p": range(1, 5),
-    "weights": ["distance", "uniform"],
+    "weights": ["distance"],  # ["distance", "uniform"],
 }
 
 

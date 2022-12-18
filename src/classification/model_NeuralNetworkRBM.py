@@ -34,19 +34,19 @@ classifier = Pipeline(
 designation = "Bernoulli Restricted Boltzmann Machine"
 
 hyperparameter_values = [
-    #    {
-    #        "bernouliRMB__batch_size": 16,
-    #        "bernouliRMB__learning_rate": 1.0,
-    #        "bernouliRMB__n_components": 16,
-    #        "bernouliRMB__n_iter": 14,
-    #        "bernouliRMB__random_state": 4178261698,
-    #        "logisticReg__C": 0.05,
-    #        "logisticReg__max_iter": 10000,
-    #        "logisticReg__penalty": "l2",
-    #        "logisticReg__random_state": STATIC_SEED,
-    #        "logisticReg__solver": "lbfgs",
-    #        "logisticReg__tol": 0.1,
-    #    },
+    {
+        "bernouliRMB__batch_size": 16,
+        "bernouliRMB__learning_rate": 1.0,
+        "bernouliRMB__n_components": 16,
+        "bernouliRMB__n_iter": 14,
+        "bernouliRMB__random_state": 4178261698,
+        "logisticReg__C": 0.05,
+        "logisticReg__max_iter": 10000,
+        "logisticReg__penalty": "l2",
+        "logisticReg__random_state": STATIC_SEED,
+        "logisticReg__solver": "lbfgs",
+        "logisticReg__tol": 0.1,
+    },
     None,
     {
         "bernouliRMB__batch_size": 16,
