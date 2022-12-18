@@ -17,9 +17,16 @@ classifier = AdaBoostClassifier()
 designation = "AdaBoost"
 
 hyperparameter_values = [
-    None, # 12 tiers (TERC)
-    None  # 22 tiers (TER)
+    {
+        "base_estimator": DecisionTreeClassifier(max_depth=6),
+        "learning_rate": 1.0,
+        "n_estimators": 466,
+        "algorithm": 'SAMME.R',
+        "random_state": 4178261698,
+    },  # 12 tiers (TER)
+    None
 ]
+
 #  Tier size 4: {'algorithm': 'SAMME', 'base_estimator': DecisionTreeClassifier(max_depth=8), 'learning_rate': 1.8085714285714287, 'n_estimators': 988, 'random_state': 4178261698}
 
 # Example to refine a search arought 10 ^ -2
@@ -28,9 +35,10 @@ hyperparameter_values = [
 # [10**(-2 + 0.2 * (i-5)) for i in range (0, 11) ]
 #
 search_grid_options = {
-    "base_estimator": [DecisionTreeClassifier(max_depth=i) for i in range(7, 10)],
-    "learning_rate": list(linspace(1.62, 2.5, num=15)),
-    "n_estimators": list(linspace(400, 2048, num=15).astype(int)),
+    "base_estimator": [DecisionTreeClassifier(max_depth=i) for i in range(4, 7)],
+    "learning_rate": list(linspace(0.1, 2, num=50)),
+    "n_estimators": list(linspace(1024, 2048, num=50).astype(int)),
+    # "n_estimators": list(linspace(400, 2048, num=15).astype(int)),
     "algorithm": ['SAMME', 'SAMME.R'],
     "random_state": [STATIC_SEED],
 }
@@ -45,7 +53,7 @@ evaluation_parameters = {
     "classifier": classifier,
     "dataset_params": default_feature_specification,
     "hyperspace_params": search_grid_options,
-    "best_hyperparameters": hyperparameter_values,
+    "best_hyperparameters": hyperparameter_values[0],
 }
 
 

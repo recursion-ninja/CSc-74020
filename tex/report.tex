@@ -125,7 +125,7 @@ In a supplementary \DnD work, \emph{Xanathar's Guide to Everything} \cite{DnD5eX
 	A party of four characters facing an encounter designed for six characters would fall into this category.
 \end{displayquote}
 
-It is clear from the source material descriptions that if a baseline part of four characters is used, then when party level is same level as the monster's \CR the encounter lethality is considered ``worthy,'' where as a monster with \CR \emph{two less} than the party level being considered``easy'' and \CR \emph{two greater} is ``deadly.''
+It is clear from the source material descriptions that if a baseline part of four characters is used, then when party level is same level as the monster's \CR the encounter lethality is considered ``worthy,'' where as a monster with \CR \emph{two less} than the party level being considered ``easy'' and \CR \emph{two greater} is ``deadly.''
 Unfortunately, the official \CR values that have been published are more often than not poor estimates of monster lethality in practice.
 
 
@@ -142,33 +142,31 @@ The predictor will process a \DnD monster's features and predict the monster's l
 
 \subsubsection{Option 1: Greater effort, greatest precision}
 
-One solution would be for a players to ignore the concept of the \CR system from the core material entirely 
-Instead, when playing \DnD a specific party's Elo rank can be tracked based on their successful and unsuccessful encounters.
+One solution would be for a player to entirely ignore the concept of the \CR system from the core material. Instead, when playing \DnD, a specific party's Elo rank can be tracked based on their successful and unsuccessful encounters.
 Future encounters can be designed to a desired level of lethality by considering the part's current Elo Rank and selecting monsters with appropriately similar Elo ranks.
 The authors conjecture that in practice, the adoption of Elo rank tracking in conjunction with the application of machine learning will produce a better indicator of monster lethality than the conceptual framework of the \CR system.
 
 However, this solution requires the players to be familiar with Elo's algorithm, as well as having access to Elo ranks of all possible \DnD monsters.
 Furthermore, it requires a willingness for the players to learn and maintain adjusted Elo ranking for the party and \DnD monsters.
-While this solution provides the most precision when estimating lethality for a particular party, the ``barrier to access'' is likely too great for the typical players.
-Due to this, we do not explore this solution and instead propose a more accessible solution instead.
+While this solution provides the most precision when estimating lethality for a particular party, the ``barrier to access'' is likely too great for the typical players. Due to this, we do not explore this solution and propose a more accessible solution instead.
 
 
 \subsubsection{Option 2: Minimal effort, still great precision}
 
-Our proposed solution is the creation of an alternative tiered ranking system philosophically analogous to the \CR system, but based on empirical derived Elo ranks rather than the published \CR ranks estimated by human authors.
+Our proposed solution is the creation of an alternative tiered ranking system philosophically analogous to the \CR system but based on empirically derived Elo ranks rather than the published \CR ranks estimated by human authors.
 The classes of the official \CR system are depicted in Figure \ref{fig:CR-Classes}.
-For our replacement system, we desire an \Column{Elo Tier} column to be represented as an discrete ordinal class.
+For our replacement system, we desire an \Column{Elo Tier} column to be represented as a discrete ordinal class.
 The creation of a companion machine learning classifier to place novel \DnD monsters into the most appropriate class will minimize the ``barrier to access'' while still conferring the precision of empirical Elo rank computations to players.
 
-In this work we construct two substitution candidates for the \CR system analyze the predictive efficacy of classifiers trained via supervised learning.
+In this work, we construct two substitution candidates for the \CR system and analyze the predictive efficacy of classifiers trained via supervised learning.
 The first candidate system is the Tiered Elo Rank (\TER), with \Qty{22} classes.
 The second candidate system is the Tiered Elo Rank (Compressed) (\TERC), with \Qty{12} classes.
 Both candidates have a corresponding morphism to the \CR system illustrated in Figure \ref{fig:CR-Mapping}.
-In both candidates the morphism collapses the ``trivial'' and ``epic'' ranges of the \CR system into single classes.
-There is a one-to-one correspondence of the ``character level'' classes of the \CR system to a classes in the \TER candidate system.
-However, there is a \emph{two}-to-one correspondence of the ``character level'' classes of the \CR system to a classes in the \TERC candidate system.
-This makes \TERC a more granular candidate but potentially more difficult to predict, where as \TERC is less granular but potentially easier to predict.
-In our project we evaluate the predictive power of multiple machine learning algorithms when given tasked with classifying an novel \DnD monster to it's corresponding \TER and \TERC class.
+In both candidates, the morphism collapses the ``trivial'' and ``epic'' ranges of the \CR system into single classes.
+There is a one-to-one correspondence of the ``character level'' classes of the \CR system to classes in the \TER candidate system.
+However, there is a \emph{two}-to-one correspondence of the ``character level'' classes of the \CR system to classes in the \TERC candidate system.
+This makes \TERC a more granular candidate but potentially more difficult to predict, whereas \TERC is less granular but potentially easier to predict.
+In our project, we evaluate the predictive power of multiple machine learning algorithms when tasked with classifying a novel \DnD monster to its corresponding \TER and \TERC class.
 
 
 \begin{figure}[htb]
