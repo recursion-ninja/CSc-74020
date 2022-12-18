@@ -12,7 +12,7 @@ from numpy import linspace
 
 classifier = MultinomialNB()
 
-designation = "Multinomial Naïve Bayes"
+designation = "Multinomial Naive Bayes"
 
 hyperparameter_values = [
     {"alpha": 0.0001, "fit_prior": False},

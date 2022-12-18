@@ -80,9 +80,9 @@ def retrieve_monster_dataset(class_names, decorrelate=None, textual=False):
     maxValues = dataset.max(axis=0)
     minValues = dataset.min(axis=0)
     nonBinary = []
-    for col in dataset.columns:
+    for idx, col in enumerate(list(dataset.columns)[:-1]):
         if minValues[col] < 0 or 1 < maxValues[col]:
-            nonBinary.append(col)
+            nonBinary.append(idx)
 
     NON_BINARY_COLUMNS = deepcopy(nonBinary)
 
