@@ -35,7 +35,7 @@ def generate_all_evaluation_tables():
     for tiers in TIERS_SET:
         print("\n")
         model_params = [
-            # ADA.with_tiers(tiers),
+            ADA.with_tiers(tiers),
             DT.with_tiers(tiers),
             GB.with_tiers(tiers),
             KNN.with_tiers(tiers),
