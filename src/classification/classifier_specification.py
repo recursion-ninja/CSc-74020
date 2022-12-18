@@ -190,24 +190,24 @@ def classifier_specification(
 ):
 
     # Conditionally:
-    #   1. Use Area Under the Receive Operation Characteristic Curve
+    #   1. Use balanced accuracy score
     # ... OR ...
     #   2. Consider all of:
-    #         - Confusion matrix structure
-    #         - F1-score
+    #         - Accuracy (balanced)
+    #         - Precision
+    #         - Recall
+    #         - F-score
     #         - Jaccard similarity coefficient
-    #         - Matthews correlation coefficient
-    #         - Precision + Recall + F-score support
     #      Before refitting based on the Area Under the Receive Operation Characteristic Curve
-    fitting = True
-    measure = lambda x: (x + "_" + METRIC_AVERAGING)
-    #    metrics = measure(precision_recall_fscore_support)
-    metrics = "balanced_accuracy"
-
-    if METRIC_MULTI_SEARCH:
-        fitting = "Area under ROC"
+    if not METRIC_MULTI_SEARCH:
+        fitting = True
+        metrics = "balanced_accuracy"
+    else:
+        # fitting = "Area under ROC"
+        fitting = "Balanced Accuracy"
+        measure = lambda x: (x + "_" + METRIC_AVERAGING)
         metrics = {
-            fitting: "roc_auc_ovo_weighted",
+            fitting: "balanced_accuracy",
             "Accuracy": "balanced_accuracy",
             "Precision": measure("precision"),
             "Recall": measure("recall"),
@@ -226,26 +226,6 @@ def classifier_specification(
         return_train_score=True,
     )
 
-#    if METRIC_MULTI_SEARCH:
-#            hyperparameterSearch = GridSearchCV(
-#            classifier,
-#            param_grid,
-#            scoring=metrics,
-#            refit=fitting,
-#            cv=4,
-#            verbose=1,
-#            n_jobs=4,
-#            return_train_score=True,
-#        )
-#    else:
-#        hyperparameterSearch = GridSearchCV(
-#            classifier,
-#            param_grid,
-#            scoring="balanced_accuracy",
-#            cv=4,
-#            verbose=1,
-#            n_jobs=-1,
-#        )
     titleOf = fitting if METRIC_AVERAGING else metrics
 
     hyperparameterSearch.fit(X_train_part, Y_train_part)

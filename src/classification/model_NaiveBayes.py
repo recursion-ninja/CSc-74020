@@ -14,7 +14,8 @@ classifier = MultinomialNB()
 designation = "Multinomial Naïve Bayes"
 
 hyperparameter_values = [
-    {"alpha": 0.01, "fit_prior": False},
+    #    {"alpha": 0.01, "fit_prior": False},
+    None,
     {"alpha": 1, "fit_prior": True},
 ]
 

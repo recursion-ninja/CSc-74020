@@ -36,10 +36,11 @@ hyperparameter_values = [
 #
 search_grid_options = {
     "base_estimator": [DecisionTreeClassifier(max_depth=i) for i in range(4, 7)],
-    "learning_rate": list(linspace(0.1, 2, num=50)),
-    "n_estimators": list(linspace(1024, 2048, num=50).astype(int)),
+    "learning_rate": list(linspace(0.1, 2, num=20)),
+    "n_estimators": list(linspace(1024, 2048, num=33).astype(int)),
     # "n_estimators": list(linspace(400, 2048, num=15).astype(int)),
-    "algorithm": ['SAMME', 'SAMME.R'],
+    "algorithm": ['SAMME'],
+    # "algorithm": ['SAMME', 'SAMME.R'],
     "random_state": [STATIC_SEED],
 }
 

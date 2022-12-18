@@ -15,14 +15,15 @@ classifier = LogisticRegression()
 designation = "Logistic Regression"
 
 hyperparameter_values = [
-    {
-        "C": 0.05,
-        "max_iter": 10000,
-        "penalty": "l2",
-        "random_state": STATIC_SEED,
-        "solver": "lbfgs",
-        "tol": 0.1,
-    },
+    #    {
+    #        "C": 0.05,
+    #        "max_iter": 10000,
+    #        "penalty": "l2",
+    #        "random_state": STATIC_SEED,
+    #        "solver": "lbfgs",
+    #        "tol": 0.1,
+    #    },
+    None,
     {
         "C": 0.0025,
         "l1_ratio": 0.0,
