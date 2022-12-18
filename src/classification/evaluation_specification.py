@@ -42,7 +42,7 @@ def generate_all_evaluation_tables():
             LRG.with_tiers(tiers),
             NB.with_tiers(tiers),
             MLP.with_tiers(tiers),
-            RBM.with_tiers(tiers),
+            # RBM.with_tiers(tiers),
             RF.with_tiers(tiers),
             SVM.with_tiers(tiers),
         ]

@@ -14,16 +14,16 @@ classifier = RandomForestClassifier()
 designation = "Random Forest"
 
 hyperparameter_values = [
-    #    {
-    #        "bootstrap": True,
-    #        "class_weight": "balanced",
-    #        "criterion": "entropy",
-    #        "max_features": "auto",
-    #        "n_estimators": 150,
-    #        "oob_score": False,
-    #        "random_state": STATIC_SEED,
-    #    },
-    None,
+    {
+        "bootstrap": True,
+        "class_weight": None,
+        "criterion": "gini",
+        "max_features": "auto",
+        "n_estimators": 250,
+        "oob_score": False,
+        "random_state": STATIC_SEED,
+    },
+    # None,
     {
         "bootstrap": True,
         "class_weight": None,
@@ -31,7 +31,7 @@ hyperparameter_values = [
         "max_features": "auto",
         "n_estimators": 150,
         "oob_score": False,
-        "random_state": 4178261698,
+        "random_state": STATIC_SEED,
     },
 ]
 
@@ -40,7 +40,7 @@ search_grid_options = {
     "class_weight": [None],  # , "balanced", "balanced_subsample"],
     "criterion": ["gini"],  # ["gini", "entropy"],
     "max_features": ["auto"],  # ["auto", "sqrt", "log2"],
-    "n_estimators": [10 * i for i in range(10, 26)],
+    "n_estimators": [225 + i for i in range(31)],
     "oob_score": [False],  # [False, True],
     "random_state": [STATIC_SEED],
 }

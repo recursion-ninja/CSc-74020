@@ -32,16 +32,16 @@ classifier = SVC()
 designation = "Support Vector Classification"
 
 hyperparameter_values = [
-    #    {
-    #        "C": 0.04625,
-    #        "decision_function_shape": "ovo",
-    #        "gamma": "scale",
-    #        "kernel": "linear",
-    #        "probability": True,
-    #        "random_state": STATIC_SEED,
-    #        "shrinking": False,
-    #    },
-    None,
+    {
+        "C": 0.04625,
+        "decision_function_shape": "ovo",
+        "gamma": "scale",
+        "kernel": "linear",
+        "probability": True,
+        "random_state": STATIC_SEED,
+        "shrinking": False,
+    },
+    # None,
     {
         "C": 16.457142857142856,
         "class_weight": "balanced",
@@ -68,10 +68,10 @@ hyperparameter_values = [
 
 
 search_grid_options = {
-    "C": [10 ** (-1 * i) for i in range(4)],
-    "class_weight": ["balanced", None],
+    "C": list(linspace(1.25, 1.35, num=51)),
+    "class_weight": ["balanced"],  # ["balanced", None],
     "decision_function_shape": ["ovo"],
-    "gamma": ["scale", "auto"],
+    "gamma": ["scale"],  # ["scale", "auto"],
     "kernel": ["rbf"],  # [ "rbf", "sigmoid"], # [ "poly" ],
     "probability": [True],
     "random_state": [STATIC_SEED],

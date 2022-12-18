@@ -21,14 +21,15 @@ hyperparameter_values = [
         "random_state": STATIC_SEED,
         "splitter": "best",
     },
+    #    None,
     {
         "ccp_alpha": 0.0,
         "class_weight": "balanced",
-        "criterion": "entropy",
+        "criterion": "gini",
         "max_features": "auto",
         "random_state": STATIC_SEED,
         "splitter": "random",
-    },
+    }
     #    {
     #        "criterion": "gini",
     #        "max_features": "auto",

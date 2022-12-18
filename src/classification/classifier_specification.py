@@ -37,7 +37,7 @@ if not sys.warnoptions:
 
 # A random seed, but fixed seed to use in randomized function calls.
 STATIC_SEED = 0xF90B36C2
-METRIC_MULTI_SEARCH = True
+METRIC_MULTI_SEARCH = False
 METRIC_AVERAGING = "macro"
 
 decimal = lambda v: round(v, 4)
@@ -202,11 +202,14 @@ def classifier_specification(
     if not METRIC_MULTI_SEARCH:
         fitting = True
         metrics = "balanced_accuracy"
+    #        metrics = "average_precision"
     else:
         # fitting = "Area under ROC"
         fitting = "Balanced Accuracy"
+        # fitting = "Jaccard Similarity Coefficient"
         measure = lambda x: (x + "_" + METRIC_AVERAGING)
         metrics = {
+            # fitting: measure("jaccard"),
             fitting: "balanced_accuracy",
             "Accuracy": "balanced_accuracy",
             "Precision": measure("precision"),
@@ -223,7 +226,7 @@ def classifier_specification(
         cv=4,
         verbose=1,
         n_jobs=-1,
-        return_train_score=True,
+        return_train_score=False,
     )
 
     titleOf = fitting if METRIC_AVERAGING else metrics
