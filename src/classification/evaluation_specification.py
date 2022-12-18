@@ -123,6 +123,7 @@ def save_classification_plot(
     title="Classification report ",
     with_avg_total=False,
     cmap=plt.cm.Blues,
+#    cmap=plt.cm.RdYlBu,
 ):
     class_amount = len(class_names)
     x_tick_marks = range(3)
@@ -137,6 +138,13 @@ def save_classification_plot(
         "pad_inches": 0,
         "transparent": True,
     }
+    image_colors = {
+        "interpolation": "nearest",
+        "cmap": cmap,
+        "origin": "lower",
+        "vmin": 0,
+        "vmax": 1,
+    }
 
     metric_matrix = []
     for i in class_names:
@@ -146,14 +154,14 @@ def save_classification_plot(
         metric_matrix.append(row)
 
     plt.figure(figsize=(3, 7), dpi=image_dotspi)
-    plt.imshow(metric_matrix, interpolation="nearest", cmap=cmap, origin="lower")
-    plt.title(title)
-    plt.colorbar()
+    plt.imshow(metric_matrix, **image_colors)
+    # plt.title(title)
+    # plt.colorbar()
     plt.xticks(x_tick_marks, ["Precision", "Recall", "F1 Score"], rotation=90)
     plt.yticks(y_tick_marks, class_names)
     plt.tight_layout()
-    #    plt.ylabel('Tiers')
-    #    plt.xlabel('Measures')
+    # plt.ylabel('Tiers')
+    # plt.xlabel('Measures')
     plt.savefig(**image_detail)
     plt.clf()
 
