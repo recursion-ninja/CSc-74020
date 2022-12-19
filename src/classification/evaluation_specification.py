@@ -158,7 +158,7 @@ def save_classification_plot(
     plt.figure(figsize=(3, 7), dpi=image_dotspi)
     plt.imshow(metric_matrix, **image_colors)
     # plt.title(title)
-    # plt.colorbar()
+    plt.colorbar()
     plt.xticks(x_tick_marks, ["Precision", "Recall", "F1 Score"], rotation=90)
     plt.yticks(y_tick_marks, class_names)
     plt.tight_layout()

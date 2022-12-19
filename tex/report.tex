@@ -1135,10 +1135,16 @@ Support Vector Classification & \Qty{0.2347} & \Qty{0.2543} & \Qty{0.2613} & \Qt
 \end{subfigure}
 }
 
-\newcommand{\FigBoxedWidthTERC}{0.19\linewidth}
+\newcommand{\FigBoxedWidthTERC}{0.18\linewidth}
 \newcommand{\FigExactWidthTERC}{28mm}
 \newcommand{\FigModelClassesTERC}[2]{%
 \FigModelClasses{\FigBoxedWidthTERC}{\FigExactWidthTERC}{#1}{#2}%
+}%
+
+\newcommand{\ColorbarTERC}{%
+\begin{subfigure}[t]{8.25mm}
+\raisebox{8.8mm}{\includegraphics[width=8.25mm]{Color-Bar-Legend.png}}
+\end{subfigure}
 }%
 
 %
@@ -1147,6 +1153,7 @@ Support Vector Classification & \Qty{0.2347} & \Qty{0.2543} & \Qty{0.2613} & \Qt
 \newgeometry{left=1cm,right=1cm}
 \begin{figure}[ht]
 \caption{\label{fig:Class-Measure-TERC}Model predictive performance of \TERC classes}
+\vskip 0pt
 \FigModelClassesTERC{AdaBoost}{12 - AdaBoost.png}
 \hfill
 \FigModelClassesTERC{Bernoulli RBM}{12 - Bernoulli Restricted Boltzmann Machine.png}
@@ -1156,6 +1163,8 @@ Support Vector Classification & \Qty{0.2347} & \Qty{0.2543} & \Qty{0.2613} & \Qt
 \FigModelClassesTERC{Gradient Boosting}{12 - Gradient Boosting.png}
 \hfill
 \FigModelClassesTERC{K Nearest Neighbors}{12 - K Nearest Neighbors.png}
+\hfill
+\ColorbarTERC
 \\[3mm]
 \FigModelClassesTERC{Logistic Regression}{12 - Logistic Regression.png}
 \hfill
@@ -1166,6 +1175,8 @@ Support Vector Classification & \Qty{0.2347} & \Qty{0.2543} & \Qty{0.2613} & \Qt
 \FigModelClassesTERC{Random Forest}{12 - Random Forest.png}
 \hfill
 \FigModelClassesTERC{Support Vector Machine}{12 - Support Vector Classification.png}
+\hfill
+\ColorbarTERC
 \end{figure}
 \restoregeometry
 
@@ -1173,11 +1184,17 @@ Support Vector Classification & \Qty{0.2347} & \Qty{0.2543} & \Qty{0.2613} & \Qt
 %
 % |tier| = 22
 %
-\newcommand{\FigBoxedWidthTER}{0.19\linewidth}
+\newcommand{\FigBoxedWidthTER}{0.18\linewidth}
 \newcommand{\FigExactWidthTER}{33mm}
 \newcommand{\FigModelClassesTER}[2]{%
 \FigModelClasses{\FigBoxedWidthTER}{\FigExactWidthTER}{#1}{#2}%
 }%
+\newcommand{\ColorbarTER}{%
+\begin{subfigure}[t]{8.25mm}
+\raisebox{75.5mm}{\includegraphics[width=8.25mm]{Color-Bar-Legend.png}}
+\end{subfigure}
+}%
+
 
 \newgeometry{left=1cm,right=1cm}
 \begin{figure}[ht]
@@ -1186,7 +1203,8 @@ Support Vector Classification & \Qty{0.2347} & \Qty{0.2543} & \Qty{0.2613} & \Qt
 \FigModelClassesTER{Bernoulli RBM}{22 - Bernoulli Restricted Boltzmann Machine.png}\hfill
 \FigModelClassesTER{Decision Tree}{22 - Decision Tree.png}\hfill
 \FigModelClassesTER{Gradient Boosting}{22 - Gradient Boosting.png}\hfill
-\FigModelClassesTER{K Nearest Neighbors}{22 - K Nearest Neighbors.png}
+\FigModelClassesTER{K Nearest Neighbors}{22 - K Nearest Neighbors.png}\hfill
+\ColorbarTER
 \end{figure}
 
 \newgeometry{left=1cm,right=1cm}
@@ -1196,7 +1214,8 @@ Support Vector Classification & \Qty{0.2347} & \Qty{0.2543} & \Qty{0.2613} & \Qt
 \FigModelClassesTER{Multi-layer Perceptron}{22 - Multi-layer Perceptron.png}\hfill
 \FigModelClassesTER{Naive Bayes}{22 - Multinomial Naive Bayes.png}\hfill
 \FigModelClassesTER{Random Forest}{22 - Random Forest.png}\hfill
-\FigModelClassesTER{Support Vector Machine}{22 - Support Vector Classification.png}
+\FigModelClassesTER{Support Vector Machine}{22 - Support Vector Classification.png}\hfill
+\ColorbarTER
 \end{figure}
 \restoregeometry
 
