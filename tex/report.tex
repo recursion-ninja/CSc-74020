@@ -13,9 +13,10 @@
 \usepackage{longtable}
 \usepackage{xspace}
 \usepackage[section]{placeins}
-\usepackage{caption}
+\usepackage{caption, subcaption}
 %\usepackage[rm={lining,proportional},sf={lining,proportional},tt={lining,proportional,variable}]{cfr-lm}
 %\usepackage{cfr-lm} % old-figure aribic numerals1\
+%\usepackage{showframe}
 
 \usepackage{tikz}
 \usetikzlibrary{tikzmark}
@@ -496,134 +497,16 @@ The hyperparameters resulting from our model selection process can be found by r
 
 \hypertarget{results}{%
 \section{Results}}
-	%
-	% |tier| = 12
-	%
-	\begin{figure}[ht]
-		\begin{minipage}[b]{0.32\linewidth}
-			\centering
-			\includegraphics[width=\linewidth]{12 - AdaBoost.png} 
-			\caption*{AdaBoost} 
-			\vspace{10ex}
-		\end{minipage} \hfill
-		\begin{minipage}[b]{0.32\linewidth}
-			\centering
-			\includegraphics[width=\linewidth]{12 - Decision Tree.png} 
-			\caption*{Decision Tree} 
-			\vspace{10ex}
-		\end{minipage}\hfill
-		\begin{minipage}[b]{0.32\linewidth}
-			\centering
-			\includegraphics[width=\linewidth]{12 - Gradient Boosting.png} 
-			\caption*{Gradient Boosting} 
-			\vspace{10ex}
-		\end{minipage} \\
 
-		\begin{minipage}[b]{0.32\linewidth}
-			\centering
-			\includegraphics[width=\linewidth]{12 - K Nearest Neighbors.png} 
-			\caption*{K Nearest Neighbors} 
-			\vspace{10ex}
-		\end{minipage} \hfill
-		\begin{minipage}[b]{0.32\linewidth}
-			\centering
-			\includegraphics[width=\linewidth]{12 - Logistic Regression.png} 
-			\caption*{Logistic Regression} 
-			\vspace{10ex}
-		\end{minipage}\hfill
-		\begin{minipage}[b]{0.32\linewidth}
-			\centering
-			\includegraphics[width=\linewidth]{12 - Multi-layer Perceptron.png} 
-			\caption*{Multi-layer Perceptron} 
-			\vspace{10ex}
-		\end{minipage}
-	\end{figure}
+We trained and cross validated each model with the hyperparameters obtained from model selection.
+Then we had each model train on the entire training set.
+Subsequently, each model was used to perform predictions on the testing set.
+The predictions were evaluated via the following metrics; \emph{accuracy}, \emph{precision}, \emph{recall}, and \emph{F1 score}.
 
-	\begin{figure}[ht]
-		\begin{minipage}[b]{0.32\linewidth}
-			\centering
-			\includegraphics[width=\linewidth]{12 - Multinomial Naive Bayes.png} 
-			\caption*{MNB} 
-			\vspace{10ex}
-		\end{minipage}
-		\begin{minipage}[b]{0.32\linewidth}
-			\centering
-			\includegraphics[width=\linewidth]{12 - Random Forest.png} 
-			\caption*{Random Forest} 
-			\vspace{10ex}
-		\end{minipage} \hfill
-		\begin{minipage}[b]{0.32\linewidth}
-			\centering
-			\includegraphics[width=\linewidth]{12 - Support Vector Classification.png} 
-			\caption*{Support Vector Classification} 
-			\vspace{10ex}
-		\end{minipage}
-	\end{figure}
-
-	%
-	% |tier| = 22
-	%
-	\begin{figure}[ht]
-		\begin{minipage}[b]{0.32\linewidth}
-			\centering
-			\includegraphics[width=\linewidth]{22 - AdaBoost.png} 
-			\caption*{AdaBoost} 
-			\vspace{10ex}
-		\end{minipage} \hfill
-		\begin{minipage}[b]{0.32\linewidth}
-			\centering
-			\includegraphics[width=\linewidth]{22 - Decision Tree.png} 
-			\caption*{Decision Tree} 
-			\vspace{10ex}
-		\end{minipage}
-		\begin{minipage}[b]{0.32\linewidth}
-			\centering
-			\includegraphics[width=\linewidth]{22 - Gradient Boosting.png} 
-			\caption*{Gradient Boosting} 
-			\vspace{10ex}
-		\end{minipage} \\
-
-		\begin{minipage}[b]{0.32\linewidth}
-			\centering
-			\includegraphics[width=\linewidth]{22 - K Nearest Neighbors.png} 
-			\caption*{K Nearest Neighbors} 
-			\vspace{10ex}
-		\end{minipage} \hfill
-		\begin{minipage}[b]{0.32\linewidth}
-			\centering
-			\includegraphics[width=\linewidth]{22 - Logistic Regression.png} 
-			\caption*{Logistic Regression} 
-			\vspace{10ex}
-		\end{minipage}\hfill
-		\begin{minipage}[b]{0.32\linewidth}
-			\centering
-			\includegraphics[width=\linewidth]{22 - Multi-layer Perceptron.png} 
-			\caption*{Multi-layer Perceptron} 
-			\vspace{10ex}
-		\end{minipage}
-	\end{figure}
-
-	\begin{figure}[ht]
-		\begin{minipage}[b]{0.32\linewidth}
-			\centering
-			\includegraphics[width=\linewidth]{22 - Multinomial Naive Bayes.png} 
-			\caption*{MNB} 
-			\vspace{10ex}
-		\end{minipage}
-		\begin{minipage}[b]{0.32\linewidth}
-			\centering
-			\includegraphics[width=\linewidth]{22 - Random Forest.png} 
-			\caption*{Random Forest} 
-			\vspace{10ex}
-		\end{minipage} \hfill
-		\begin{minipage}[b]{0.32\linewidth}
-			\centering
-			\includegraphics[width=\linewidth]{22 - Support Vector Classification.png} 
-			\caption*{Support Vector Classification} 
-			\vspace{10ex}
-		\end{minipage}
-	\end{figure}
-
+This training, prediction, and evaluation process was applied to the cross product of the model specification set and the tier list set.
+Phrased differently, for each combination of our \Qty{2} tier list multi-class label outputs and our \Qty{9} specified models, we evaluated our model's performance.
+The resulting aggregated measures of our evaluation metrics are listed in Table \ref{tab:metrics-TERC} and Table \ref{tab:metrics-TER}.
+The individual measures of the models' predictive performance for each class are depicted in Figure \ref{fig:Class-Measure-TERC} for \TERC and in Figures \ref{fig:Class-Measure-TER-1} and \ref{fig:Class-Measure-TER-2} for \TER.
 
 \hypertarget{conclusion}{%
 \section{Conclusion/Future Work}}
@@ -637,7 +520,6 @@ The hyperparameters resulting from our model selection process can be found by r
 \bibliographystyle{IEEEtran}
 \bibliography{references.bib}%
 \clearpage
-
 
 \section{Appendix}
 
@@ -1087,5 +969,141 @@ Support Vector Machines & \href{https://github.com/recursion-ninja/CSc-CSc-74020
 \bottomrule
 \end{longtable}
 \end{table}
+
+
+\begin{table}[!htbp] \centering 
+\caption{Evaluation metrics of models' predicting \TERC}
+\label{tab:metrics-TERC}
+\begin{longtable}[]{@{}lcccc@{}}
+\toprule
+~ & Accuracy & Precision & Recall & F1-Score \\
+\midrule
+\endhead
+AdaBoost                      & \Qty{0.4693} & \Qty{0.5367} & \Qty{0.4868} & \Qty{0.5045} \\
+Decision Tree                 & \Qty{0.3069} & \Qty{0.3347} & \Qty{0.3495} & \Qty{0.3384} \\
+Gradient Boosting             & \Qty{0.4729} & \Qty{0.5088} & \Qty{0.5347} & \Qty{0.5158} \\
+K Nearest Neighbors           & \Qty{0.4621} & \Qty{0.5169} & \Qty{0.5091} & \Qty{0.5069} \\
+Logistic Regression           & \Qty{0.4116} & \Qty{0.4646} & \Qty{0.4750} & \Qty{0.4618} \\
+Multinomial Naive Bayes       & \Qty{0.3466} & \Qty{0.3611} & \Qty{0.4019} & \Qty{0.3647} \\
+Multi-layer Perceptron        & \Qty{0.4801} & \Qty{0.5386} & \Qty{0.5283} & \Qty{0.5230} \\
+Random Forest                 & \Qty{0.4765} & \Qty{0.5235} & \Qty{0.4923} & \Qty{0.5018} \\
+Support Vector Classification & \Qty{0.4585} & \Qty{0.5299} & \Qty{0.5186} & \Qty{0.5203} \\
+\bottomrule
+\end{longtable}
+\end{table}
+
+
+\begin{table}[!htbp] \centering 
+\caption{Evaluation metrics of models' predicting \TER}
+\label{tab:metrics-TER}
+\begin{longtable}[]{@{}lcccc@{}}
+\toprule
+~ & Accuracy & Precision & Recall & F1-Score \\
+\midrule
+\endhead
+AdaBoost                      & \Qty{0.3249} & \Qty{0.4039} & \Qty{0.3021} & \Qty{0.3146} \\
+Decision Tree                 & \Qty{0.1877} & \Qty{0.2241} & \Qty{0.1938} & \Qty{0.1969} \\
+Gradient Boosting             & \Qty{0.1552} & \Qty{0.0156} & \Qty{0.0850} & \Qty{0.0261} \\
+K Nearest Neighbors           & \Qty{0.2960} & \Qty{0.3034} & \Qty{0.3010} & \Qty{0.2969} \\
+Logistic Regression           & \Qty{0.2455} & \Qty{0.2225} & \Qty{0.2351} & \Qty{0.2165} \\
+Multinomial Naive Bayes       & \Qty{0.1697} & \Qty{0.1774} & \Qty{0.1840} & \Qty{0.1541} \\
+Multi-layer Perceptron        & \Qty{0.2419} & \Qty{0.2485} & \Qty{0.2548} & \Qty{0.2422} \\
+Random Forest                 & \Qty{0.2924} & \Qty{0.3167} & \Qty{0.2852} & \Qty{0.2826} \\
+Support Vector Classification & \Qty{0.2347} & \Qty{0.2543} & \Qty{0.2613} & \Qty{0.2444} \\
+\bottomrule
+\end{longtable}
+\end{table}
+
+
+%%% %%% %%% %%% %%% %%%
+%%% %%% Figures %%% %%%
+%%% %%% %%% %%% %%% %%%
+
+
+\newcommand{\FigSubLabel}[1]{\subcaption*{\textbf{\centering#1}}}
+\newcommand{\FigSubSource}[2]{\centering\includegraphics[width=#1]{#2}}
+\newcommand{\FigModelClasses}[4]{%
+\begin{subfigure}[t]{#1}
+\FigSubSource{#2}{#4}
+\FigSubLabel{#3}
+\end{subfigure}
+}
+
+\newcommand{\FigBoxedWidthTERC}{0.19\linewidth}
+\newcommand{\FigExactWidthTERC}{28mm}
+\newcommand{\FigModelClassesTERC}[2]{%
+\FigModelClasses{\FigBoxedWidthTERC}{\FigExactWidthTERC}{#1}{#2}%
+}%
+
+%
+% |tier| = 12
+%
+\newgeometry{left=1cm,right=1cm}
+\begin{figure}[ht]
+\caption{\label{fig:Class-Measure-TERC}Model predictive performance of \TERC classes}
+\FigModelClassesTERC{AdaBoost}{12 - AdaBoost.png}
+\hfill
+\FigModelClassesTERC{Decision Tree}{12 - Decision Tree.png}
+\hfill
+\FigModelClassesTERC{Gradient Boosting}{12 - Gradient Boosting.png}
+\hfill
+\FigModelClassesTERC{K Nearest Neighbors}{12 - K Nearest Neighbors.png}
+\hfill
+\FigModelClassesTERC{Logistic Regression}{12 - Logistic Regression.png}
+\\[3mm]
+\FigModelClassesTERC{Multi-layer Perceptron}{12 - Multi-layer Perceptron.png}
+\hfill
+\FigModelClassesTERC{Naive Bayes}{12 - Multinomial Naive Bayes.png}
+\hfill
+\FigModelClassesTERC{Random Forest}{12 - Random Forest.png}
+\hfill
+\FigModelClassesTERC{Bernoulli RBM}{12 - Bernoulli Restricted Boltzmann Machine.png}
+\hfill
+\FigModelClassesTERC{Support Vector Machine}{12 - Support Vector Classification.png}
+\end{figure}
+\restoregeometry
+
+
+%
+% |tier| = 22
+%
+\newcommand{\FigBoxedWidthTER}{0.19\linewidth}
+\newcommand{\FigExactWidthTER}{33mm}
+\newcommand{\FigModelClassesTER}[2]{%
+\FigModelClasses{\FigBoxedWidthTER}{\FigExactWidthTER}{#1}{#2}%
+}%
+
+\newgeometry{left=1cm,right=1cm}
+\begin{figure}[ht]
+\caption{\label{fig:Class-Measure-TER-1}Model predictive performance of \TER classes (1)}
+\FigModelClassesTER{AdaBoost}{22 - AdaBoost.png}\hfill
+\FigModelClassesTER{Decision Tree}{22 - Decision Tree.png}\hfill
+\FigModelClassesTER{Gradient Boosting}{22 - Gradient Boosting.png}\hfill
+\FigModelClassesTER{K Nearest Neighbors}{22 - K Nearest Neighbors.png}\hfill
+\FigModelClassesTER{Logistic Regression}{22 - Logistic Regression.png}
+\end{figure}
+
+\newgeometry{left=1cm,right=1cm}
+\begin{figure}[ht]
+\caption{\label{fig:Class-Measure-TER-2}Model predictive performance of \TER classes (1)}
+\FigModelClassesTER{Multi-layer Perceptron}{22 - Multi-layer Perceptron.png}\hfill
+\FigModelClassesTER{Naive Bayes}{22 - Multinomial Naive Bayes.png}\hfill
+\FigModelClassesTER{Random Forest}{22 - Random Forest.png}\hfill
+\FigModelClassesTER{Bernoulli RBM}{22 - Bernoulli Restricted Boltzmann Machine.png}\hfill
+\FigModelClassesTER{Support Vector Machine}{22 - Support Vector Classification.png}
+\end{figure}
+\restoregeometry
+
+
+
+
+
+
+
+
+
+
+
+
 
 \end{document}

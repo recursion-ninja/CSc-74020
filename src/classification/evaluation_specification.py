@@ -42,10 +42,10 @@ def generate_all_evaluation_tables():
             LRG.with_tiers(tiers),
             NB.with_tiers(tiers),
             MLP.with_tiers(tiers),
+            # Giving very poor results, exclude from consideration
+            RBM.with_tiers(tiers),
             RF.with_tiers(tiers),
             SVM.with_tiers(tiers),
-            # Giving very poor results, exclude from consideration
-            # RBM.with_tiers(tiers),
         ]
 
         print("  |Tiers|  =  {}\n\n".format(len(tiers)))
@@ -133,6 +133,7 @@ def save_classification_plot(
     image_dotspi = 150
     image_format = "png"
     image_detail = {
+        "bbox_inches": 'tight',
         "fname": str(class_amount) + " - " + title + "." + image_format,
         "dpi": image_dotspi,
         "format": image_format,
