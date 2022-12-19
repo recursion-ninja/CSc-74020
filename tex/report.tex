@@ -531,9 +531,9 @@ Theoretically, this means that a model's predictive performance for \TERC will a
 
 The predictive capabilities of the Bernoulli restricted Boltzmann machine exhibited, by far, the worst performance.
 In fact, it barely surpassed random guessing between the \Qty{12} and \Qty{22} classes of \TERC and \TER, respectively.
-Our assessment, is that the model requires far more delicate model selection than what was performed.
-Furthermore, the model requires careful transformation of inputs to be either binary indicators or real values within the the range \NumericRange{0}{1}.
-Not enough time was given to this model, ensuring inputs were appropriately tansformed and that the model selection was appropriate.
+Our assessment is that the model requires far more delicate model selection than what was performed.
+Furthermore, the model requires careful transformation of inputs to be either binary indicators or real values within the range \NumericRange{0}{1}.
+Not enough time was given to this model, ensuring inputs were appropriately transformed and that the model selection was appropriate.
  
 The decision tree model performed the second worst.
 This is not a surprising result, as we did not expect the model to be highly performant.
@@ -545,7 +545,7 @@ However after some consideration, we believe that the naive assumption of each f
 Maybe features not dropped by the decorrelation pass still had ``high'' correlation within \NumericRange{0.25}{0.7}.
 This likely hampered the efficacy of the Naive Bayes model.
 
-Gradient boosting model performed well for \TERC but did not scale well to \TER.
+The Gradient boosting model performed well for \TERC but did not scale well to \TER.
 This may be corrected with additional model selection time.
 However, the extent of effort allowed before the end of the semester has precluded this possibility.
 
@@ -563,12 +563,12 @@ With further dedication to model selection, it may have easily reached the same 
 
 The best, ``first place,'' performing models were AdaBoost, the K nearest neighbors, and the multi-layer perceptron classifiers.
 The random forest model, along with the logistic regression and support vector machine models, can be considered in a ``second place'' ranking compared to the top performing models.
-We believe that more exploration with each of these \Qty{6} models are warranted.
+We believe that more exploration with each of these \Qty{6} models is warranted.
 However, we can safely drop the decision tree, naive Bayes models, and Bernoulli restricted Boltzmann machine from consideration during the future work of performing model selection.
 Gradient boosting may or may not be dropped from consideration, depending on the time and resources permitted in any future work.
 
-Overall, the predictive capabilities for smallest tier list \TERC is somewhat significant, though far from optimal.
-With roughly \Qty{0.48} ``correctness'' for a given metric, the top classifiers out perform any uniformed guessing ($\Qty{0.08\overline{3}} = \frac{\Qty{1}}{\Qty{12}}$).
+Overall, the predictive capabilities for the smallest tier list \TERC is somewhat significant, though far from optimal.
+With roughly \Qty{0.48} ``correctness'' for a given metric, the top classifiers outperform any uniformed guessing ($\Qty{0.08\overline{3}} = \frac{\Qty{1}}{\Qty{12}}$).
 For the largest tier list \TER, the predictive capabilities are lesser, yet still informative.
 With roughly \Qty{0.29} ``correctness'' for a given metric, the same top classifiers clearly exceed uniformly random guessing ($\Qty{0.0\overline{45}} = \frac{\Qty{1}}{\Qty{22}}$).
 Future work, if pursued, will be directed towards this hypothesis testing, quantifiable and falsifiable observation.
@@ -606,7 +606,7 @@ The experimentation with \Qty{10} very different modeling techniques provided us
 
 Finally, the amount of clock-cycles required to perform thorough model selection.
 The hyperparameter searching process for \TERC and \TER consumed all of our available time, given the short supply we had after acquiring, matching, and collating the dataset.
-However, we are believe that the techniques we learned during our model selections, chiefly the ``wide and sparse'' search followed by a ``targeted and dense'' search, will be exceptionally valuable in our future endeavors, both in machine learning and as a transferable skill to other computationally expensive searching problems.
+However, we believe that the techniques we learned during our model selections, chiefly the ``wide and sparse'' search followed by a ``targeted and dense'' search, will be exceptionally valuable in our future endeavors, both in machine learning and as a transferable skill to other computationally expensive searching problems.
 With more available time, we are confident that we could have tuned the models to perform better on  both tier lists and performed hypothesis testing between the Challenge Rating system and our predictor(s) for substitute \TER and \TERC systems.
 
 In summary the authors gained multiple valuable insights into the application of and challenges with machine learning as a predictive problem solving technique.
@@ -1072,6 +1072,8 @@ Support Vector Machines & \href{https://github.com/recursion-ninja/CSc-CSc-74020
 \end{table}
 
 
+<<<<<<< HEAD
+=======
 \begin{table}[!htbp] \centering 
 \caption{Evaluation metrics of models' predicting \TERC}
 \label{tab:metrics-TERC}
@@ -1196,15 +1198,6 @@ Support Vector Classification & \Qty{0.2347} & \Qty{0.2543} & \Qty{0.2613} & \Qt
 \FigModelClassesTER{Support Vector Machine}{22 - Support Vector Classification.png}
 \end{figure}
 \restoregeometry
-
-
-
-
-
-
-
-
-
 
 
 
