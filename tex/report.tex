@@ -447,41 +447,44 @@ The best performing classifier(s) will have their model(s) further tuned to prod
 
 \begin{enumerate}
 	\def\labelenumi{\arabic{enumi}.}
-	\item
-	\textbf{Decision Tree:} Decision trees make extremely fast classifiers once constructed, but can be incredibly time consuming to build.
+	\item\textbf{AdaBoost:}
+	AdaBoost is often used with other learning models to improve performance.
+	It is known that the final model can converge to a strong learner if individual learners are slightly better than random guessing, i.e., the error rate is lower than 0.5 in binary classification.
+	Since AdaBoost is often considered the best classifier when used together with the Decision Tree (as a weak learner)\footnote{\url{https://en.wikipedia.org/wiki/AdaBoost}}, we will use them together and hope it will prove itself as the best classifier once again.
+	\item\textbf{Bernoulli Restricted Boltzmann Machine:}
+	This unsupervised nonlinear feature learner uses a probabilistic model.
+	Features extracted from an RBM often provide good results when subsequently interpreted by a linear classifier.
+	We use the RBM in conjunction with a logistic classifier which consumes the RBM output(s).
+	\item\textbf{Decision Tree:}
+	Decision trees make extremely fast classifiers once constructed, but can be incredibly time consuming to build.
 	We will try our luck with this model and see if an effective classifier could be built within a reasonable time frame.
 	We might get a surprising result, but we do not place a lot of hope in this model.
-	\item
-	\textbf{K Nearest Neighbors:} A very simple model with a theoretical bound on its maximum inaccuracy.
+	\item\textbf{Gradient Boosting:}
+	The techniques of gradient tree boosting appears to be a general-purpose, good algorithm for a wide range of classification tasks.
+	We hope that it will prove useful in our classification domain.
+	\item\textbf{K Nearest Neighbors:}
+	A very simple model with a theoretical bound on its maximum inaccuracy.
 	We will use this as our initial classifier to get our bearing and some quick benchmarking numbers.
-	\item
-	\textbf{Logistic Regression:} We recall from class that the logistic regression
+	\item\textbf{Logistic Regression:}
+	We recall from class that the logistic regression
 	can be an effective and efficient model for multi-class output, which
 	our tier list is.
 	This model will be considered because we suspected that the features have some linear, but not polynomial, relationship(s).
 	The	logistic regression ought to capture and train well if linear relationships exist between the features and tier list labels.
-	\item
-	\textbf{Multinomial Naive Bayes:} Independent features are important factors for the efficacy of Naive Bayes models.
+	\item\textbf{Multinomial Naive Bayes:}
+	Independent features are important factors for the efficacy of Naive Bayes models.
 	Naive Bayes models are supposed to train well on a small number of observations.
-	Our dataset will likely be just above the \texttt{1000} observation threshold, so we have high hopes that this model would train well.
+	Our dataset is just above the \texttt{1000} observation threshold, so we have high hopes that this model would train well.
 	This will be our second model used to get quick benchmarking numbers.
-	\item
-	\textbf{Multi-layer Perceptron:} We wanted to experiment with the
-	concept of artificial neural nets.
+	\item\textbf{Multi-layer Perceptron:}
+	We wanted to experiment with the concept of artificial neural nets.
 	The inclusion of this model will allow us to get some experience with an instance of the buzzword-worthy model.
 	Given the great flexibility of ANNs, we expected very good performance from this model.
-	\item
-	\textbf{Random Forest:} Given the unknown nature and limited domain knowledge that we could use to direct the machine learning process, the use of at least one ensemble learning technique seems to be a prudent choice.
-	\item
-	\textbf{Support Vector Machines:} In an ideal case, the data-set will be linearly separable in some hyperspace.
+	\item\textbf{Random Forest:} 
+	Given the unknown nature and limited domain knowledge that we could use to direct the machine learning process, the use of at least one ensemble learning technique seems to be a prudent choice.
+	\item\textbf{Support Vector Machines:} 
+	In an ideal case, the data-set will be linearly separable in some hyperspace.
 	If this ideal case matches the reality of the data-set, an SVM will perform exceptionally well, making its inclusion a natural choice.
-	\item
-	\textbf{AdaBoost:} AdaBoost is often used with other learning models to improve performance. It is known that the final model can converge to a strong learner if individual learners are slightly better than random guessing, i.e., the error rate is lower than 0.5 in binary classification. Since AdaBoost is often considered the best classifier when used together with the Decision Tree (as a weak learner)\footnote{\url{https://en.wikipedia.org/wiki/AdaBoost}}, we will use them together and hope it will prove itself as the best classifier once again.
-	\item
-	\textbf{Gradient Boosting:} TODO 
-	\item
-	\textbf{Bernoulli Restricted Boltzmann Machine:} TODO
-
 	
 \end{enumerate}
 
