@@ -17,14 +17,14 @@ classifier = AdaBoostClassifier()
 designation = "AdaBoost"
 
 hyperparameter_values = [
-    # {
-    #     "base_estimator": DecisionTreeClassifier(max_depth=6),
-    #     "learning_rate": 1.0,
-    #     "n_estimators": 466,
-    #     "algorithm": 'SAMME.R',
-    #     "random_state": 4178261698,
-    # },  # 12 tiers (TER)
-    None,
+    {
+        "base_estimator": DecisionTreeClassifier(max_depth=6),
+        "learning_rate": 1.0,
+        "n_estimators": 466,
+        "algorithm": 'SAMME.R',
+        "random_state": 4178261698,
+    },  # 12 tiers (TER)
+    #None,
     {
         "base_estimator": DecisionTreeClassifier(max_depth=6),
         "learning_rate": 0.5,
