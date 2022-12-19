@@ -17,14 +17,21 @@ classifier = AdaBoostClassifier()
 designation = "AdaBoost"
 
 hyperparameter_values = [
+    # {
+    #     "base_estimator": DecisionTreeClassifier(max_depth=6),
+    #     "learning_rate": 1.0,
+    #     "n_estimators": 466,
+    #     "algorithm": 'SAMME.R',
+    #     "random_state": 4178261698,
+    # },  # 12 tiers (TER)
+    None,
     {
         "base_estimator": DecisionTreeClassifier(max_depth=6),
-        "learning_rate": 1.0,
-        "n_estimators": 466,
-        "algorithm": 'SAMME.R',
+        "learning_rate": 0.5,
+        "n_estimators": 720,
+        "algorithm": 'SAMME',
         "random_state": 4178261698,
-    },  # 12 tiers (TER)
-    None
+    },  # 22 tiers (TER)
 ]
 
 #  Tier size 4: {'algorithm': 'SAMME', 'base_estimator': DecisionTreeClassifier(max_depth=8), 'learning_rate': 1.8085714285714287, 'n_estimators': 988, 'random_state': 4178261698}
@@ -36,8 +43,10 @@ hyperparameter_values = [
 #
 search_grid_options = {
     "base_estimator": [DecisionTreeClassifier(max_depth=i) for i in range(4, 7)],
-    "learning_rate": list(linspace(0.1, 2, num=20)),
-    "n_estimators": list(linspace(1024, 2048, num=33).astype(int)),
+    "learning_rate": list(linspace(0.2 - 15 * 1, 0.2 + 15 * 1, num=31)),
+    "n_estimators": list(linspace(66 - 15 * 100, 66 + 15 * 100, num=31).astype(int)),
+    # "learning_rate": list(linspace(0.1, 1, num=20)),
+    # "n_estimators": list(linspace(1024, 2848, num=20).astype(int)),
     # "n_estimators": list(linspace(400, 2048, num=15).astype(int)),
     "algorithm": ['SAMME'],
     # "algorithm": ['SAMME', 'SAMME.R'],
